@@ -145,7 +145,16 @@ final class ExerciseClipView: UIView {
             forInterval: CMTime(seconds: 0.1, preferredTimescale: 600),
             queue: .main
         ) { [weak self] time in
-            guard let self, let duration = player.currentItem?.duration.seconds,
+            guard let self else { return }
+            // Self-heals against an ad SDK reconfiguring the shared AVAudioSession for its own
+            // video creative -- BackgroundMusicPlayer documents the same interference and
+            // recovers from it; this muted clip player sat unprotected, silently stuck at rate 0
+            // with no interruption notification it was listening for. Cheap to check ten times a
+            // second, and only acts when playback thinks it should be moving but the player isn't.
+            if state == .playing, player.rate == 0 {
+                player.play()
+            }
+            guard let duration = player.currentItem?.duration.seconds,
                   duration.isFinite, duration > 0 else { return }
             setProgress(time.seconds / duration)
         }

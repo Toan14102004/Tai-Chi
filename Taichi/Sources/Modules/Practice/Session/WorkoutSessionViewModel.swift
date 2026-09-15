@@ -19,8 +19,6 @@ extension WorkoutSessionView {
             case completed
         }
 
-        static let getReadySeconds = 10
-
         @Navigation var navigator
         @Injected var workoutService: WorkoutService
         @Injected var progressStore: WorkoutProgressStore
@@ -137,7 +135,7 @@ extension WorkoutSessionView {
                 return
             }
             phase = .getReady
-            remainingSeconds = Self.getReadySeconds
+            remainingSeconds = localStorageService.workoutSettings.preWorkoutCountdownSeconds
             startTimer()
         }
 
@@ -149,12 +147,32 @@ extension WorkoutSessionView {
             phase = .exercise
             remainingSeconds = exercise.durationSeconds
             startTimer()
+            // Covers every path back into an exercise -- off a rest interval, a skipped one, Previous,
+            // or a restart -- with one call rather than repeating it at each call site. A harmless
+            // no-op if music hasn't started yet or is already playing.
+            musicPlayer.resume()
         }
 
         private func completeCurrentExercise() {
             guard let exercise = currentExercise else { return }
             progressStore.markExerciseCompleted(exercise, in: workoutId, activeDurationSeconds: elapsedSeconds)
-            advance()
+            beginRestOrAdvance()
+        }
+
+        /// Rests before the next exercise when Workout Settings' rest timer is on and there is a
+        /// next exercise to rest before -- otherwise moves straight on, same as before rest
+        /// existed. `tick()`'s `.rest` case (or a skip/Next tap) is what actually advances once
+        /// the rest interval is up.
+        private func beginRestOrAdvance() {
+            let settings = localStorageService.workoutSettings
+            guard settings.restTimerEnabled, index + 1 < exercises.count else {
+                advance()
+                return
+            }
+            phase = .rest
+            remainingSeconds = settings.restTimerSeconds
+            startTimer()
+            musicPlayer.pause()
         }
 
         private func advance() {
