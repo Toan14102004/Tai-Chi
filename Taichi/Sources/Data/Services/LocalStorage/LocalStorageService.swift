@@ -72,7 +72,6 @@ protocol UserDefaultService: AnyObject {
 
     // Profile
     var userProfile: UserProfile { get set }
-    var profileWorkoutSettings: ProfileWorkoutSettings { get set }
     var workoutReminders: [WorkoutReminder] { get set }
     var hasSeededReminders: Bool { get set }
 }
@@ -138,7 +137,6 @@ private enum Keys {
 
     // Profile
     static let userProfile = "user_profile"
-    static let profileWorkoutSettings = "profile_workout_settings"
     static let workoutReminders = "workout_reminders"
     static let hasSeededReminders = "has_seeded_reminders"
 }
@@ -346,11 +344,6 @@ key: Keys.practiceCompactAd,
     // MARK: - Profile
     @ObjectUserDefaultWrapper(key: Keys.userProfile, defaultValue: UserProfile())
     var userProfile: UserProfile
-
-    /// The Profile tab's own Workout Settings -- see `ProfileWorkoutSettings`'s doc comment for
-    /// why this is a separate property/type from `workoutSettings` above.
-    @ObjectUserDefaultWrapper(key: Keys.profileWorkoutSettings, defaultValue: ProfileWorkoutSettings())
-    var profileWorkoutSettings: ProfileWorkoutSettings
 
     @ObjectUserDefaultWrapper(key: Keys.workoutReminders, defaultValue: [])
     var workoutReminders: [WorkoutReminder]

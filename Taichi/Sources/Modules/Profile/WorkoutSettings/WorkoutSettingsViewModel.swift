@@ -8,15 +8,49 @@
 import Combine
 import SwiftUI
 
+/// "Rest timer" row option. `off` renders as "Off", the rest as "30s", "60s"… Presentation-only:
+/// `WorkoutSettings` (shared with the pre-workout settings sheet) stores the same choice as a
+/// plain `restTimerEnabled`/`restTimerSeconds` pair, which is what this screen reads and writes.
+enum RestTimerDuration: Int, CaseIterable, Identifiable {
+    case off = 0
+    case thirty = 30
+    case forty5 = 45
+    case sixty = 60
+    case ninety = 90
+
+    var id: Int { rawValue }
+
+    var title: String {
+        self == .off ? "Off" : "\(rawValue)s"
+    }
+}
+
+/// "Countdown before workout" row option. Always a real duration -- there is no "off" state in
+/// the design. Presentation-only, same reasoning as `RestTimerDuration` above.
+enum WorkoutCountdown: Int, CaseIterable, Identifiable {
+    case three = 3
+    case five = 5
+    case ten = 10
+    case fifteen = 15
+    case twenty = 20
+
+    var id: Int { rawValue }
+
+    var title: String { "\(rawValue)s" }
+}
+
 extension WorkoutSettingsView {
     final class ViewModel: BaseViewModel {
         @Navigation var navigation
         @Injected var localStorageService: LocalStorageService
 
         @Published var coordinator = Coordinator()
-        @Published var settings = ProfileWorkoutSettings() {
+
+        /// Shared with the pre-workout settings sheet (`Modules/Practice/Settings`) and what an
+        /// actual session reads -- editing it here is no longer a separate, disconnected copy.
+        @Published var settings = WorkoutSettings() {
             didSet {
-                localStorageService.profileWorkoutSettings = settings
+                localStorageService.workoutSettings = settings
                 if settings.musicVolume != oldValue.musicVolume {
                     musicPlayer.setVolume(Float(settings.musicVolume))
                 }
@@ -48,8 +82,35 @@ extension WorkoutSettingsView {
             }
         }
 
+        var volumePercentText: String {
+            "\(Int((settings.musicVolume * 100).rounded()))%"
+        }
+
+        /// The picker's current selection, derived from the shared model's raw fields.
+        var restTimerOption: RestTimerDuration {
+            guard settings.restTimerEnabled else { return .off }
+            return RestTimerDuration(rawValue: settings.restTimerSeconds) ?? .off
+        }
+
+        var countdownOption: WorkoutCountdown {
+            WorkoutCountdown(rawValue: settings.preWorkoutCountdownSeconds) ?? .ten
+        }
+
+        func selectRestTimer(_ option: RestTimerDuration) {
+            settings.restTimerEnabled = option != .off
+            if option != .off {
+                settings.restTimerSeconds = option.rawValue
+            }
+            editingDuration = nil
+        }
+
+        func selectCountdown(_ option: WorkoutCountdown) {
+            settings.preWorkoutCountdownSeconds = option.rawValue
+            editingDuration = nil
+        }
+
         func load() {
-            settings = localStorageService.profileWorkoutSettings
+            settings = localStorageService.workoutSettings
             loadBackgroundMusic()
         }
 
@@ -62,8 +123,10 @@ extension WorkoutSettingsView {
                 }, receiveValue: { [weak self] tracks in
                     guard let self else { return }
                     self.tracks = tracks
-                    if let firstTrack = tracks.first {
-                        self.settings.songTitle = firstTrack.title
+                    // Only fall back to the first track when the saved id isn't one of these --
+                    // a valid saved selection stays picked rather than being reset on every visit.
+                    if !tracks.contains(where: { $0.id == self.settings.selectedTrackId }), let firstTrack = tracks.first {
+                        self.settings.selectedTrackId = firstTrack.id
                     }
                     // Matches the pre-workout settings sheet: audible as soon as it loads,
                     // rather than requiring a tap on the play button first.
@@ -77,7 +140,7 @@ extension WorkoutSettingsView {
         }
 
         var currentTrack: BackgroundMusic? {
-            tracks.first { $0.title == settings.songTitle }
+            tracks.first { $0.id == settings.selectedTrackId } ?? tracks.first
         }
 
         func togglePlayback() {
@@ -96,7 +159,7 @@ extension WorkoutSettingsView {
 
         func selectTrack(_ track: BackgroundMusic) {
             musicPlayer.stop()
-            settings.songTitle = track.title
+            settings.selectedTrackId = track.id
             isPickingSong = false
         }
 
