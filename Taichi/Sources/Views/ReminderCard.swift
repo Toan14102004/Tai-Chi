@@ -56,6 +56,7 @@ struct ReminderCard: View {
                     }
                 }
                 .padding(.top, Layout.Spacing.s)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
         }
@@ -77,6 +78,7 @@ struct ReminderCard: View {
                     .frame(width: 20, height: 20)
             }
             .frame(width: 37, height: 20)
+            .contentShape(Rectangle())
             .animation(.easeInOut(duration: 0.15), value: reminder.isEnabled)
         }
         .buttonStyle(.plain)

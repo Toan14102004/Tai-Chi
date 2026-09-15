@@ -124,6 +124,8 @@ struct PersonalDetailsView: View {
                 .frame(height: 34)
                 .background(isOn ? Asset.Color.mainColor.color : .clear)
                 .clipShape(Capsule())
+                // `.clear` when off, which alone doesn't count as tappable content.
+                .contentShape(Capsule())
         }
         .buttonStyle(.plain)
     }

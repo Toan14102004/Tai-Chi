@@ -75,6 +75,7 @@ struct AddReminderTimeSheet: View {
                         .stroke(Asset.Color.mainColor.color, lineWidth: isPrimary ? 0 : 1)
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

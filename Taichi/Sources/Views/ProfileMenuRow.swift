@@ -29,6 +29,10 @@ struct ProfileMenuRow: View {
                     .frame(width: 30.iPad(35), height: 30.iPad(35))
             }
             .padding(.vertical, Layout.Spacing.s + Layout.Spacing.xs)
+            // Without this, only the icon/text/chevron's own drawn pixels are tappable -- the gaps
+            // between them (and the flexible space the title's `maxWidth: .infinity` opens up)
+            // silently eat taps instead of reaching the button.
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

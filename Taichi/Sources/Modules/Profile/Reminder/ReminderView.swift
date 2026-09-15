@@ -76,6 +76,7 @@ struct ReminderView: View {
             .frame(height: 48)
                 .background(Asset.Color.mainColor.color)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .padding(.horizontal, 39.5)

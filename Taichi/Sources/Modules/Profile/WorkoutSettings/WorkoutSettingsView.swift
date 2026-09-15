@@ -233,6 +233,7 @@ struct WorkoutSettingsView: View {
             .frame(height: 56)
             .background(Asset.Color.white.color)
             .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.large))
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
