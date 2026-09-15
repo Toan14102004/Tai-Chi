@@ -7,32 +7,6 @@
 
 import SwiftUI
 
-private struct SoundWaveAnimation: View {
-    @State private var isAnimating = false
-
-    private let barHeights: [CGFloat] = [8, 16, 11, 20, 13]
-
-    var body: some View {
-        HStack(spacing: 2) {
-            ForEach(barHeights.indices, id: \.self) { index in
-                Capsule()
-                    .fill(Asset.Color.mainColor.color)
-                    .frame(width: 3, height: isAnimating ? barHeights[index] : 5)
-                    .animation(
-                        .easeInOut(duration: 0.45)
-                            .repeatForever(autoreverses: true)
-                            .delay(Double(index) * 0.08),
-                        value: isAnimating
-                    )
-            }
-        }
-        .frame(maxHeight: .infinity)
-        .onAppear { isAnimating = true }
-        .onDisappear { isAnimating = false }
-        .accessibilityElement(children: .ignore)
-    }
-}
-
 /// The song card and scrub bar, split out of `WorkoutSettingsView` so they can observe
 /// `BackgroundMusicPlayer` directly. The player ticks `currentTime` at 4Hz; publishing that
 /// through the screen's own view model would invalidate the whole screen's body -- native ad
@@ -63,7 +37,7 @@ private struct MusicPlayerSection: View {
                             .accessibilityHidden(true)
                     }
 
-                    Text(viewModel.settings.songTitle)
+                    Text(viewModel.currentTrack?.title ?? "Loading…")
                         .font(Typography.bodyMedium)
                         .foregroundStyle(Asset.Color.textPrimary.color)
                         .lineLimit(1)
@@ -161,10 +135,10 @@ struct WorkoutSettingsView: View {
                     }
 
                     section("Duration") {
-                        durationRow(title: "Rest timer", value: viewModel.settings.restTimer.title) {
+                        durationRow(title: "Rest timer", value: viewModel.restTimerOption.title) {
                             viewModel.editingDuration = .restTimer
                         }
-                        durationRow(title: "Countdown before workout", value: viewModel.settings.countdown.title) {
+                        durationRow(title: "Countdown before workout", value: viewModel.countdownOption.title) {
                             viewModel.editingDuration = .countdown
                         }
                     }
@@ -215,7 +189,7 @@ struct WorkoutSettingsView: View {
 
                 Spacer()
 
-                Text(viewModel.settings.volumePercentText)
+                Text(viewModel.volumePercentText)
                     .font(Typography.bodyMedium)
                     .foregroundStyle(Asset.Color.mainColor.color)
             }
@@ -271,16 +245,14 @@ struct WorkoutSettingsView: View {
                 switch field {
                 case .restTimer:
                     ForEach(RestTimerDuration.allCases) { option in
-                        durationOption(option.title, isOn: viewModel.settings.restTimer == option) {
-                            viewModel.settings.restTimer = option
-                            viewModel.editingDuration = nil
+                        durationOption(option.title, isOn: viewModel.restTimerOption == option) {
+                            viewModel.selectRestTimer(option)
                         }
                     }
                 case .countdown:
                     ForEach(WorkoutCountdown.allCases) { option in
-                        durationOption(option.title, isOn: viewModel.settings.countdown == option) {
-                            viewModel.settings.countdown = option
-                            viewModel.editingDuration = nil
+                        durationOption(option.title, isOn: viewModel.countdownOption == option) {
+                            viewModel.selectCountdown(option)
                         }
                     }
                 }
@@ -315,7 +287,7 @@ struct WorkoutSettingsView: View {
                                     .foregroundStyle(Asset.Color.textTertiary.color)
                             }
                             Spacer()
-                            if track.title == viewModel.settings.songTitle {
+                            if track.id == viewModel.settings.selectedTrackId {
                                 Asset.Icon.Profile.tickCircle.image
                                     .resizable()
                                     .frame(width: 24, height: 24)

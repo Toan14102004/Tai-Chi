@@ -130,13 +130,24 @@ struct WorkoutSettingsSheet: View {
             .foregroundStyle(Asset.Color.textSecondary.color)
     }
 
+    /// The bouncing bars while music is actually playing, the same static icon Profile's
+    /// Workout Settings uses the rest of the time.
+    @ViewBuilder
+    private var soundWaveIcon: some View {
+        if musicPlayer.isPlaying {
+            SoundWaveAnimation()
+                .frame(width: 24, height: 24)
+        } else {
+            Asset.Icon.Profile.soundWave.image
+                .resizable()
+                .frame(width: 24, height: 24)
+        }
+    }
+
     private var musicCard: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: Layout.Spacing.s) {
-                Image(systemName: "waveform")
-                    .font(.system(size: 16))
-                    .foregroundStyle(Asset.Color.textPrimary.color)
-                    .frame(width: 24, height: 24)
+                soundWaveIcon
 
                 Text(viewModel.selectedTrack?.title ?? "Loading…")
                     .font(Typography.bodyMedium)
@@ -250,10 +261,7 @@ struct WorkoutSettingsSheet: View {
         } label: {
             HStack(spacing: Layout.Spacing.s) {
                 if isSelected {
-                    Image(systemName: "waveform")
-                        .font(.system(size: 16))
-                        .foregroundStyle(Asset.Color.mainColor.color)
-                        .frame(width: 24, height: 24)
+                    soundWaveIcon
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
