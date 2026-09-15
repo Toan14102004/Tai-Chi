@@ -1,0 +1,113 @@
+# SwiftFormat configuration file for iOS SwiftUI project
+
+# Indentation
+--indent 4
+--tabwidth 4
+--smarttabs enabled
+
+# Line length
+--maxwidth 120
+
+# Rules - Enabled
+--enable isEmpty
+--enable sortedImports
+--enable duplicateImports
+--enable unusedArguments
+--enable hoistPatternLet
+--enable redundantSelf
+--enable redundantReturn
+--enable redundantParens
+--enable redundantGet
+--enable redundantInit
+--enable redundantVoidReturnType
+--enable redundantNilInit
+--enable redundantLet
+--enable redundantPattern
+--enable redundantRawValues
+--enable redundantObjc
+--enable redundantFileprivate
+--enable redundantClosure
+--enable redundantBreak
+--enable spaceAroundParens
+--enable spaceInsideParens
+--enable spaceAroundBrackets
+--enable spaceInsideBrackets
+--enable spaceAroundBraces
+--enable spaceInsideBraces
+--enable spaceAroundGenerics
+--enable spaceAroundOperators
+--enable spaceAroundComments
+--enable consecutiveSpaces
+--enable consecutiveBlankLines
+--enable blankLinesAtEndOfScope
+--enable blankLinesAtStartOfScope
+--enable blankLinesBetweenScopes
+--enable linebreakAtEndOfFile
+--enable indent
+--enable trailingSpace
+--enable wrap
+--enable wrapArguments
+--enable braces
+--enable semicolons
+--enable andOperator
+--enable leadingDelimiters
+--enable trailingCommas
+--enable todos
+--disable acronyms
+--enable typeSugar
+--enable preferKeyPath
+--enable opaqueGenericParameters
+--enable blockComments
+
+# Rules - Disabled (commonly disabled for SwiftUI projects)
+--disable redundantSelf # Keep self for clarity in SwiftUI closures
+--disable trailingClosures # Can conflict with SwiftUI syntax
+--disable wrapMultilineStatementBraces # SwiftUI view builders benefit from flexible formatting
+
+# SwiftUI specific settings
+--swiftversion 5.9
+
+# Wrapping options
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen balanced
+--wraptypealiases before-first
+
+# Spacing
+--trimwhitespace always
+
+# Commas
+--commas inline
+--trailingcommas always
+
+# Braces
+--allman false
+--elseposition same-line
+--guardelse auto
+
+
+# Import organization
+--importgrouping testable-bottom
+
+# Other formatting preferences
+
+--operatorfunc spaced
+--nospaceoperators ..<,...
+--ranges spaced
+--varattributes preserve
+--funcattributes preserve
+--typeattributes preserve
+
+--linebreaks lf
+--octalgrouping 4,8
+--binarygrouping 4,8
+--decimalgrouping 3,6
+--hexgrouping 4,8
+--fractiongrouping disabled
+--exponentgrouping disabled
+--hexliteralcase uppercase
+--exponentcase lowercase
+
+# Files to exclude (project-agnostic using globs)
+--exclude Pods,Generated,**/Generated,**/Sources/Generated,**/Helpers/Validator,**/Sources/Helpers/Validator,**/FlowStacks,*.generated.swift,*+CoreDataClass.swift,*+CoreDataProperties.swift

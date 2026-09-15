@@ -1,0 +1,116 @@
+# .swiftlint.yml
+
+# Các thư mục được kiểm tra
+included:
+  - ProjectStructure/Sources                  # Thư mục chính chứa code
+
+# Các thư mục bị loại trừ
+excluded:
+  - Pods                    # Loại trừ Pods
+  - Build                   # Loại trừ thư mục build
+  - Carthage                # Loại trừ Carthage
+  - Tests                   # Loại trừ test (tùy chọn)
+  - Vendor                  # Loại trừ thư viện bên thứ 3
+  - .bundle
+  - ProjectStructure/Sources/Generated
+
+# Tắt một số quy tắc không phù hợp với SwiftUI
+disabled_rules:
+  - force_cast              # Cho phép ép kiểu khi cần thiết
+  - force_unwrapping        # Hạn chế sử dụng dấu chấm than (!)
+  - type_body_length        # Không giới hạn độ dài struct/class
+  - nesting                 # Cho phép nesting sâu hơn trong SwiftUI
+  - optional_data_string_conversion
+
+# Bật các quy tắc tùy chọn (opt-in)
+opt_in_rules:
+  - empty_count             # Cảnh báo khi dùng .count == 0 thay vì .isEmpty
+  - missing_docs            # Yêu cầu tài liệu cho public API
+  - private_over_fileprivate # Khuyến khích dùng private thay vì fileprivate
+  - vertical_whitespace     # Đảm bảo không có quá nhiều dòng trống liên tiếp
+  - explicit_init         # Bắt buộc gọi rõ ràng init()
+  - sorted_first_last     # Kiểm tra first/sorted cho Collections
+  - closure_spacing
+  - contains_over_first_not_nil
+  - fatal_error_message
+  - first_where
+  - joined_default_parameter
+  - multiline_arguments
+  - multiline_parameters
+  - nimble_operator
+  # - operator_usage_whitespace
+  - overridden_super_call
+  - pattern_matching_keywords
+  - redundant_nil_coalescing
+  - unneeded_parentheses_in_closure_argument
+  # - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+  - large_tuple
+  - override_in_extension
+  - trailing_newline
+  - unused_enumerated
+  - comment_spacing
+
+# Tùy chỉnh giới hạn
+line_length:
+  warning: 200              # Cảnh báo khi dòng dài quá 120 ký tự
+  error: 300                # Lỗi khi vượt quá 150 ký tự
+  ignores_comments: true    # Bỏ qua comment khi tính độ dài dòng
+  ignores_urls: true        # Bỏ qua URL
+
+file_length:
+  warning: 1000            # Cảnh báo khi file dài quá 500 dòng
+  error: 1500               # Lỗi khi vượt quá 1000 dòng
+
+function_body_length:
+  warning: 1000
+  error: 1500
+
+cyclomatic_complexity:
+  warning: 20               # Độ phức tạp tối đa của hàm (các câu lệnh if, for,...)
+  error: 25
+
+generic_type_name:
+  min_length: 1
+  max_length: 30
+
+# Quy tắc đặt tên
+identifier_name:
+  min_length: 3             # Tên biến tối thiểu 3 ký tự
+  max_length:
+    warning: 40             # Cảnh báo nếu tên dài quá 40 ký tự
+    error: 50               # Lỗi nếu vượt quá 50 ký tự
+  excluded:                 # Ngoại lệ cho tên ngắn
+    - id
+    - x
+    - y
+    - z
+    - dx
+    - dy
+    - dz
+    - to
+    - a
+    - b
+    - c
+    - ip
+
+type_name:
+  min_length: 3             # Tên type tối thiểu 3 ký tự
+  max_length:
+    warning: 40
+    error: 50
+
+# Quy tắc cho closure (phổ biến trong SwiftUI)
+large_tuple:
+  warning: 3                # Cảnh báo khi tuple có hơn 3 phần tử
+  error: 4                  # Lỗi khi vượt quá 4 phần tử
+
+trailing_whitespace:
+  ignores_empty_lines: true
+  ignores_comments: true
+
+redundant_void_return: false # Cho phép viết -> Void nếu cần rõ ràng
+
+# Reporter (định dạng đầu ra khi chạy lệnh terminal)
+reporter: "xcode"           # Hiển thị lỗi theo định dạng Xcode

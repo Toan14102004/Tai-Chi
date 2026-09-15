@@ -1,0 +1,18 @@
+//
+//  Dev.xcconfig
+//  Taichi
+//
+//  Created by Toan Nguyen on 11/3/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_NAME = Taichi Dev
+APP_ENV = Dev
+// TODO: replace with the real values once App Store Connect / legal pages exist for this app.
+APP_ID = REPLACE_WITH_YOUR_APP_STORE_ID
+PRIVACY_URL = https:\/\/REPLACE_WITH_YOUR_PRIVACY_POLICY_URL
+TERM_OF_USE_URL = https:\/\/REPLACE_WITH_YOUR_TERMS_URL
+EMAIL_FEEDBACL = REPLACE_WITH_YOUR_SUPPORT_EMAIL
+ADJUST_TOKEN = REPLACE_WITH_YOUR_ADJUST_TOKEN

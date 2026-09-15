@@ -1,0 +1,118 @@
+PODS:
+  - Adjust (5.5.0):
+    - Adjust/Adjust (= 5.5.0)
+  - Adjust/Adjust (5.5.0):
+    - AdjustSignature (= 3.62.0)
+  - AdjustSignature (3.62.0)
+  - Alamofire (5.11.0)
+  - AppLovinSDK (13.5.0)
+  - ASN1Swift (1.2.7)
+  - FBAEMKit (18.0.2):
+    - FBSDKCoreKit_Basics (= 18.0.2)
+  - FBAudienceNetwork (6.21.0)
+  - FBSDKCoreKit (18.0.2):
+    - FBAEMKit (= 18.0.2)
+    - FBSDKCoreKit_Basics (= 18.0.2)
+  - FBSDKCoreKit_Basics (18.0.2)
+  - FBSDKLoginKit (18.0.2):
+    - FBSDKCoreKit (= 18.0.2)
+  - FBSDKShareKit (18.0.2):
+    - FBSDKCoreKit (= 18.0.2)
+  - Google-Mobile-Ads-SDK (12.14.0):
+    - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleMobileAdsMediationAppLovin (13.5.0.0):
+    - AppLovinSDK (= 13.5.0)
+    - Google-Mobile-Ads-SDK (~> 12.0)
+  - GoogleMobileAdsMediationFacebook (6.21.0.0):
+    - FBAudienceNetwork (= 6.21.0)
+    - Google-Mobile-Ads-SDK (~> 12.0)
+  - GoogleMobileAdsMediationUnity (4.16.5.0):
+    - Google-Mobile-Ads-SDK (~> 12.0)
+    - UnityAds (= 4.16.5)
+  - GoogleUserMessagingPlatform (3.1.0)
+  - KeychainAccess (4.2.2)
+  - Kingfisher (7.12.0)
+  - LBTATools (1.0.12)
+  - lottie-ios (4.5.2)
+  - TPInAppReceipt (3.4.1):
+    - TPInAppReceipt/Core (= 3.4.1)
+  - TPInAppReceipt/Core (3.4.1):
+    - ASN1Swift (~> 1.2.6)
+  - UnityAds (4.16.5)
+
+DEPENDENCIES:
+  - Adjust
+  - Alamofire (~> 5.10)
+  - FBSDKCoreKit
+  - FBSDKLoginKit
+  - FBSDKShareKit
+  - Google-Mobile-Ads-SDK
+  - GoogleMobileAdsMediationAppLovin
+  - GoogleMobileAdsMediationFacebook
+  - GoogleMobileAdsMediationUnity
+  - KeychainAccess (~> 4.2)
+  - Kingfisher (~> 7.0)
+  - LBTATools (from `https://github.com/bhlvoong/LBTATools.git`)
+  - lottie-ios (~> 4.5.2)
+  - TPInAppReceipt (~> 3.4)
+
+SPEC REPOS:
+  trunk:
+    - Adjust
+    - AdjustSignature
+    - Alamofire
+    - AppLovinSDK
+    - ASN1Swift
+    - FBAEMKit
+    - FBAudienceNetwork
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Google-Mobile-Ads-SDK
+    - GoogleMobileAdsMediationAppLovin
+    - GoogleMobileAdsMediationFacebook
+    - GoogleMobileAdsMediationUnity
+    - GoogleUserMessagingPlatform
+    - KeychainAccess
+    - Kingfisher
+    - lottie-ios
+    - TPInAppReceipt
+    - UnityAds
+
+EXTERNAL SOURCES:
+  LBTATools:
+    :git: https://github.com/bhlvoong/LBTATools.git
+
+CHECKOUT OPTIONS:
+  LBTATools:
+    :commit: adfebcec7e09f07b184f1eca321dd5ec61c47d5b
+    :git: https://github.com/bhlvoong/LBTATools.git
+
+SPEC CHECKSUMS:
+  Adjust: a0095eda439b925f809b0efbf64923c05701e937
+  AdjustSignature: 682d788005a6e21557913a9dc0381ae8d943ca0a
+  Alamofire: bd5e7b23a1a750975288482c1831d71e74415f86
+  AppLovinSDK: bf8974163120910e6b902e9610e7c5a2c0f577b6
+  ASN1Swift: bbd56c299b2084ba71bd7d7769c6202451598948
+  FBAEMKit: 56a4f5a9607957b547b6458b17a98c5bb2736367
+  FBAudienceNetwork: f4ab9e073ab98c884dbdb5ffe7c861272b380bc2
+  FBSDKCoreKit: 54f1240567e16862ab71c53c33dc347db5c524c5
+  FBSDKCoreKit_Basics: eb530cd6a79030dbb11df460aafb2767bcad9028
+  FBSDKLoginKit: 6a70798793e499335a98fab1a758d7da34af196e
+  FBSDKShareKit: e52c6b1584c77c708bcb4001c9a48223c115cbd9
+  Google-Mobile-Ads-SDK: 4534fd2dfcd3f705c5485a6633c5188d03d4eed2
+  GoogleMobileAdsMediationAppLovin: 56b7465bf2afc594982b7820d8db8ea092a57ffc
+  GoogleMobileAdsMediationFacebook: 664fd50364d36531196bf24fe62d2db84cad72d0
+  GoogleMobileAdsMediationUnity: 8b3e518d94c750231a88b9f13b84be22b295c8f9
+  GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
+  Kingfisher: 53a10ea35051a436b5fb626ca2dd8f3144d755e9
+  LBTATools: 389a901a01b9a56bea5682c40cd6e23530f40015
+  lottie-ios: 96784afc26ea031d3e2b6cae342a4b8915072489
+  TPInAppReceipt: 22dbc616bcd6c61672ebe062e60b6329a2af6323
+  UnityAds: 8b9e0ecf7c4aa7334d15f81efb58db279e28f502
+
+PODFILE CHECKSUM: 8146bc19ae2b3e3ed232751d25474330fd42946c
+
+COCOAPODS: 1.17.0

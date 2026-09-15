@@ -1,0 +1,936 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		316B57172F3C77AF003CC81A /* CoreDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = 316B57162F3C77AF003CC81A /* CoreDataKit */; };
+		316B57192F3C7827003CC81A /* CoreDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = 316B57182F3C7827003CC81A /* CoreDataKit */; };
+		69ED283685DAAB31E89AF50E /* Pods_Taichi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8805199F47F7BCDB503BFA0 /* Pods_Taichi.framework */; };
+		A728730B2EFE68760092169A /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = A728730A2EFE68760092169A /* BottomSheet */; };
+		A76313BF2E7170D70098E06E /* FlagAndCountryCode in Frameworks */ = {isa = PBXBuildFile; productRef = A76313BE2E7170D70098E06E /* FlagAndCountryCode */; };
+		A785DEF32F35D38200D71B5E /* CoreDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = A785DEF22F35D38200D71B5E /* CoreDataKit */; };
+		A7A9E07C2E8E27FF0064EDDC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A7A9E07B2E8E27FF0064EDDC /* Kingfisher */; };
+		A7FB83B32E98F82800C4E1A5 /* MijickTimer in Frameworks */ = {isa = PBXBuildFile; productRef = A7FB83B22E98F82800C4E1A5 /* MijickTimer */; };
+		AF073AC32DF71A920077DB7B /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = AF073AC22DF71A920077DB7B /* SwiftUIIntrospect */; };
+		AF8B995B2E03286E007FB68B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8B995A2E03286E007FB68B /* StoreKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		86906B0325FA13CFFA0FE9BC /* Pods-Taichi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taichi.release.xcconfig"; path = "Target Support Files/Pods-Taichi/Pods-Taichi.release.xcconfig"; sourceTree = "<group>"; };
+		9838107F6616F17A39568B6A /* Pods-Taichi.dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taichi.dev.xcconfig"; path = "Target Support Files/Pods-Taichi/Pods-Taichi.dev.xcconfig"; sourceTree = "<group>"; };
+		AF8B995A2E03286E007FB68B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		AFB7AB192CEB790D007C8CD4 /* Taichi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taichi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8805199F47F7BCDB503BFA0 /* Pods_Taichi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taichi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AFCA52C12CEE1C7000212B4E /* Exceptions for "Taichi" folder in "Taichi" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Info.plist,
+			);
+			target = AFB7AB182CEB790D007C8CD4 /* Taichi */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AFB7AB1B2CEB790D007C8CD4 /* Taichi */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AFCA52C12CEE1C7000212B4E /* Exceptions for "Taichi" folder in "Taichi" target */,
+			);
+			path = Taichi;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AFB7AB162CEB790D007C8CD4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A76313BF2E7170D70098E06E /* FlagAndCountryCode in Frameworks */,
+				316B57192F3C7827003CC81A /* CoreDataKit in Frameworks */,
+				A7A9E07C2E8E27FF0064EDDC /* Kingfisher in Frameworks */,
+				AF073AC32DF71A920077DB7B /* SwiftUIIntrospect in Frameworks */,
+				316B57172F3C77AF003CC81A /* CoreDataKit in Frameworks */,
+				AF8B995B2E03286E007FB68B /* StoreKit.framework in Frameworks */,
+				A7FB83B32E98F82800C4E1A5 /* MijickTimer in Frameworks */,
+				A728730B2EFE68760092169A /* BottomSheet in Frameworks */,
+				A785DEF32F35D38200D71B5E /* CoreDataKit in Frameworks */,
+				69ED283685DAAB31E89AF50E /* Pods_Taichi.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F885531A0D9FFF4172DC046 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF8B995A2E03286E007FB68B /* StoreKit.framework */,
+				F8805199F47F7BCDB503BFA0 /* Pods_Taichi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AFB7AB102CEB790D007C8CD4 = {
+			isa = PBXGroup;
+			children = (
+				AFB7AB1B2CEB790D007C8CD4 /* Taichi */,
+				AFB7AB1A2CEB790D007C8CD4 /* Products */,
+				B45E515686952EF0E12AA2DB /* Pods */,
+				6F885531A0D9FFF4172DC046 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AFB7AB1A2CEB790D007C8CD4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AFB7AB192CEB790D007C8CD4 /* Taichi.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B45E515686952EF0E12AA2DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9838107F6616F17A39568B6A /* Pods-Taichi.dev.xcconfig */,
+				86906B0325FA13CFFA0FE9BC /* Pods-Taichi.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AFB7AB182CEB790D007C8CD4 /* Taichi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFB7AB272CEB790E007C8CD4 /* Build configuration list for PBXNativeTarget "Taichi" */;
+			buildPhases = (
+				B3C7937B42AAEFE45E83C72A /* [CP] Check Pods Manifest.lock */,
+				AFB7AB152CEB790D007C8CD4 /* Sources */,
+				AFB7AB162CEB790D007C8CD4 /* Frameworks */,
+				AFB7AB172CEB790D007C8CD4 /* Resources */,
+				AF2ECFAD2D809A520025B167 /* SwiftLint */,
+				6E9ACADC8307A74784703F48 /* [CP] Embed Pods Frameworks */,
+				9D8A615585C11A0051244AF3 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AFB7AB1B2CEB790D007C8CD4 /* Taichi */,
+			);
+			name = Taichi;
+			productName = Taichi;
+			productReference = AFB7AB192CEB790D007C8CD4 /* Taichi.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AFB7AB112CEB790D007C8CD4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				KnownAssetTags = (
+					location,
+					travelView,
+					travelViewVideo,
+				);
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					AFB7AB182CEB790D007C8CD4 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = AFB7AB142CEB790D007C8CD4 /* Build configuration list for PBXProject "Taichi" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				es,
+				fr,
+				hi,
+				ko,
+				ja,
+				ru,
+				"zh-Hans",
+				de,
+				"pt-PT",
+				id,
+				ar,
+				fa,
+				bn,
+				pa,
+				sw,
+			);
+			mainGroup = AFB7AB102CEB790D007C8CD4;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF073AC12DF71A920077DB7B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				A76313BD2E7170D70098E06E /* XCRemoteSwiftPackageReference "FlagAndCountryCode" */,
+				A7A9E07A2E8E27FF0064EDDC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				A7FB83B12E98F82800C4E1A5 /* XCRemoteSwiftPackageReference "Timer" */,
+				A72873092EFE68760092169A /* XCRemoteSwiftPackageReference "BottomSheet" */,
+				A785DEF12F35D38200D71B5E /* XCRemoteSwiftPackageReference "CoreDataKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AFB7AB1A2CEB790D007C8CD4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AFB7AB182CEB790D007C8CD4 /* Taichi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AFB7AB172CEB790D007C8CD4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6E9ACADC8307A74784703F48 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D8A615585C11A0051244AF3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Taichi/Pods-Taichi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF2ECFAD2D809A520025B167 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n#alias swiftlint=\"/opt/homebrew/bin/swiftlint\"\n\nswiftlint\n\n# Update a temporary file so that Xcode recognizes the process as completed\ntouch \"$DERIVED_FILE_DIR/swiftlint.timestamp\"\n";
+		};
+		B3C7937B42AAEFE45E83C72A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Taichi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AFB7AB152CEB790D007C8CD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AFB7AB252CEB790E007C8CD4 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = AFB7AB1B2CEB790D007C8CD4 /* Taichi */;
+			baseConfigurationReferenceRelativePath = Enviroments/Dev.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Dev;
+		};
+		AFB7AB262CEB790E007C8CD4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = AFB7AB1B2CEB790D007C8CD4 /* Taichi */;
+			baseConfigurationReferenceRelativePath = Enviroments/Release.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AFB7AB282CEB790E007C8CD4 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9838107F6616F17A39568B6A /* Pods-Taichi.dev.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Taichi/Taichi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"Taichi/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D4692K9B9S;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Taichi/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Taichi;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads and to improve our services.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"ASN1Swift\"",
+					"-framework",
+					"\"AVFAudio\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"AdjustSdk\"",
+					"-framework",
+					"\"AdjustSigSdk\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AppLovinAdapter\"",
+					"-framework",
+					"\"AppLovinSDK\"",
+					"-framework",
+					"\"AppTrackingTransparency\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreHaptics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"FBAEMKit\"",
+					"-framework",
+					"\"FBAudienceNetwork\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKCoreKit_Basics\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"KeychainAccess\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LBTATools\"",
+					"-framework",
+					"\"Lottie\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MetaAdapter\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TPInAppReceipt\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UnityAdapter\"",
+					"-framework",
+					"\"UnityAds\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AppTrackingTransparency\"",
+					"-weak_framework",
+					"\"CFNetwork\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"CoreMotion\"",
+					"-weak_framework",
+					"\"CoreTelephony\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"LocalAuthentication\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"SystemConfiguration\"",
+					"-weak_framework",
+					"\"VideoToolbox\"",
+					"-weak_framework",
+					Webkit,
+					"-lswift_Concurrency",
+					"-Wl,-U,_swift_coroFrameAlloc",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.app.new.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Provisioning Test App";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Dev;
+		};
+		AFB7AB292CEB790E007C8CD4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86906B0325FA13CFFA0FE9BC /* Pods-Taichi.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Taichi/Taichi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Taichi/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D4692K9B9S;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Taichi/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Taichi;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads and to improve our services.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"ASN1Swift\"",
+					"-framework",
+					"\"AVFAudio\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"AdjustSdk\"",
+					"-framework",
+					"\"AdjustSigSdk\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AppLovinAdapter\"",
+					"-framework",
+					"\"AppLovinSDK\"",
+					"-framework",
+					"\"AppTrackingTransparency\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreHaptics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"FBAEMKit\"",
+					"-framework",
+					"\"FBAudienceNetwork\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKCoreKit_Basics\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"KeychainAccess\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LBTATools\"",
+					"-framework",
+					"\"Lottie\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MetaAdapter\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TPInAppReceipt\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UnityAdapter\"",
+					"-framework",
+					"\"UnityAds\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AppTrackingTransparency\"",
+					"-weak_framework",
+					"\"CFNetwork\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"CoreMotion\"",
+					"-weak_framework",
+					"\"CoreTelephony\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"LocalAuthentication\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"SystemConfiguration\"",
+					"-weak_framework",
+					"\"VideoToolbox\"",
+					"-weak_framework",
+					Webkit,
+					"-lswift_Concurrency",
+					"-Wl,-U,_swift_coroFrameAlloc",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.app.new.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Provisioning Test App";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AFB7AB142CEB790D007C8CD4 /* Build configuration list for PBXProject "Taichi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFB7AB252CEB790E007C8CD4 /* Dev */,
+				AFB7AB262CEB790E007C8CD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFB7AB272CEB790E007C8CD4 /* Build configuration list for PBXNativeTarget "Taichi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFB7AB282CEB790E007C8CD4 /* Dev */,
+				AFB7AB292CEB790E007C8CD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A72873092EFE68760092169A /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
+		A76313BD2E7170D70098E06E /* XCRemoteSwiftPackageReference "FlagAndCountryCode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/FlagAndCountryCode";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.3;
+			};
+		};
+		A785DEF12F35D38200D71B5E /* XCRemoteSwiftPackageReference "CoreDataKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nts-sixblack/CoreDataKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		A7A9E07A2E8E27FF0064EDDC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
+		A7FB83B12E98F82800C4E1A5 /* XCRemoteSwiftPackageReference "Timer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Mijick/Timer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		AF073AC12DF71A920077DB7B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		316B57162F3C77AF003CC81A /* CoreDataKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A785DEF12F35D38200D71B5E /* XCRemoteSwiftPackageReference "CoreDataKit" */;
+			productName = CoreDataKit;
+		};
+		316B57182F3C7827003CC81A /* CoreDataKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A785DEF12F35D38200D71B5E /* XCRemoteSwiftPackageReference "CoreDataKit" */;
+			productName = CoreDataKit;
+		};
+		A728730A2EFE68760092169A /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A72873092EFE68760092169A /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+		A76313BE2E7170D70098E06E /* FlagAndCountryCode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A76313BD2E7170D70098E06E /* XCRemoteSwiftPackageReference "FlagAndCountryCode" */;
+			productName = FlagAndCountryCode;
+		};
+		A785DEF22F35D38200D71B5E /* CoreDataKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A785DEF12F35D38200D71B5E /* XCRemoteSwiftPackageReference "CoreDataKit" */;
+			productName = CoreDataKit;
+		};
+		A7A9E07B2E8E27FF0064EDDC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7A9E07A2E8E27FF0064EDDC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		A7FB83B22E98F82800C4E1A5 /* MijickTimer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7FB83B12E98F82800C4E1A5 /* XCRemoteSwiftPackageReference "Timer" */;
+			productName = MijickTimer;
+		};
+		AF073AC22DF71A920077DB7B /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF073AC12DF71A920077DB7B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AFB7AB112CEB790D007C8CD4 /* Project object */;
+}
