@@ -19,9 +19,14 @@ struct PlanHomeSkeletonView: View {
         // up missing or doubled and throw that row out of line with the rest.
         VStack(alignment: .leading, spacing: Layout.Spacing.m) {
             section(titleWidth: 80) {
-                HStack(spacing: PlanHeroCard.cardSpacing) {
-                    SkeletonBlock(cornerRadius: 16)
-                        .frame(width: PlanHeroCard.cardWidth, height: PlanHeroCard.cardHeight)
+                // Wrapped in a horizontal ScrollView, same as the real carousel: a bare HStack
+                // has no way to clip its content, so a row wider than the screen (Daily Routine's
+                // two cards, below) would spill past the right edge instead of scrolling.
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: PlanHeroCard.cardSpacing) {
+                        SkeletonBlock(cornerRadius: 16)
+                            .frame(width: PlanHeroCard.cardWidth, height: PlanHeroCard.cardHeight)
+                    }
                 }
             }
 
@@ -29,10 +34,12 @@ struct PlanHomeSkeletonView: View {
                 .frame(height: NativeAdViewStyle.contentCard.height)
 
             section(titleWidth: 110) {
-                HStack(spacing: DailyRoutineCard.cardSpacing) {
-                    ForEach(0..<2, id: \.self) { _ in
-                        SkeletonBlock(cornerRadius: 16)
-                            .frame(width: DailyRoutineCard.cardWidth, height: DailyRoutineCard.cardHeight)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: DailyRoutineCard.cardSpacing) {
+                        ForEach(0..<2, id: \.self) { _ in
+                            SkeletonBlock(cornerRadius: 16)
+                                .frame(width: DailyRoutineCard.cardWidth, height: DailyRoutineCard.cardHeight)
+                        }
                     }
                 }
             }
@@ -68,10 +75,15 @@ struct DiscoverHomeSkeletonView: View {
             SkeletonBlock(cornerRadius: 16)
                 .frame(height: NativeAdViewStyle.contentCard.height)
 
-            HStack(spacing: DiscoverFeaturedCard.cardSpacing) {
-                ForEach(0..<2, id: \.self) { _ in
-                    SkeletonBlock(cornerRadius: 16)
-                        .frame(width: DiscoverFeaturedCard.cardWidth, height: DiscoverFeaturedCard.cardHeight)
+            // Wrapped in a horizontal ScrollView, same as the real carousel: a bare HStack
+            // can't clip its content, so two cards wider than the screen would spill past the
+            // right edge instead of scrolling.
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: DiscoverFeaturedCard.cardSpacing) {
+                    ForEach(0..<2, id: \.self) { _ in
+                        SkeletonBlock(cornerRadius: 16)
+                            .frame(width: DiscoverFeaturedCard.cardWidth, height: DiscoverFeaturedCard.cardHeight)
+                    }
                 }
             }
 
@@ -79,13 +91,15 @@ struct DiscoverHomeSkeletonView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     SkeletonLine(width: 150, height: 18)
 
-                    HStack(spacing: DiscoverWorkoutCard.cardSpacing) {
-                        ForEach(0..<2, id: \.self) { _ in
-                            VStack(alignment: .leading, spacing: 4) {
-                                SkeletonBlock(cornerRadius: 12)
-                                    .frame(width: DiscoverWorkoutCard.cardWidth, height: 140)
-                                SkeletonLine(width: 150)
-                                SkeletonLine(width: 90, height: 12)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: DiscoverWorkoutCard.cardSpacing) {
+                            ForEach(0..<2, id: \.self) { _ in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    SkeletonBlock(cornerRadius: 12)
+                                        .frame(width: DiscoverWorkoutCard.cardWidth, height: 140)
+                                    SkeletonLine(width: 150)
+                                    SkeletonLine(width: 90, height: 12)
+                                }
                             }
                         }
                     }
