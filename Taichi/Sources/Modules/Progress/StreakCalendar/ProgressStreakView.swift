@@ -90,15 +90,18 @@ struct ProgressStreakView: View {
                 .buttonStyle(.plain)
             }
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: Layout.Spacing.s) {
+            HStack(spacing: 0) {
                 ForEach(Self.weekdaySymbols, id: \.self) { symbol in
                     Text(symbol)
                         .font(Typography.labelSmall)
                         .foregroundStyle(Asset.Color.textSecondary.color)
+                        .frame(maxWidth: .infinity)
                 }
+            }
 
-                ForEach(viewModel.gridDays, id: \.self) { day in
-                    dayCell(day)
+            VStack(spacing: Layout.Spacing.s) {
+                ForEach(weeks, id: \.self) { week in
+                    weekRow(week)
                 }
             }
         }
@@ -106,7 +109,59 @@ struct ProgressStreakView: View {
         .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 
-    private func dayCell(_ day: Date) -> some View {
+    /// `viewModel.gridDays` is already laid out week by week -- chunked back into rows of 7 so
+    /// each row can merge its own consecutive active days into one block.
+    private var weeks: [[Date]] {
+        stride(from: 0, to: viewModel.gridDays.count, by: 7).map {
+            Array(viewModel.gridDays[$0 ..< min($0 + 7, viewModel.gridDays.count)])
+        }
+    }
+
+    /// Figma `08 / Progress — Streak Calendar`: a run of consecutive active days reads as one
+    /// solid capsule, not separate circles -- a single active day is just a capsule as wide as it
+    /// is tall, which is a circle. Drawn as one background block per run, with the day numbers
+    /// laid on top.
+    private func weekRow(_ week: [Date]) -> some View {
+        GeometryReader { geo in
+            let cellWidth = geo.size.width / CGFloat(week.count)
+
+            ZStack(alignment: .topLeading) {
+                ForEach(activeRuns(in: week), id: \.self) { run in
+                    Capsule()
+                        .fill(Asset.Color.secondaryColor.color)
+                        .frame(width: cellWidth * CGFloat(run.count), height: 32)
+                        .offset(x: cellWidth * CGFloat(run.lowerBound))
+                }
+
+                HStack(spacing: 0) {
+                    ForEach(week, id: \.self) { day in
+                        dayNumber(day)
+                            .frame(width: cellWidth, height: 32)
+                    }
+                }
+            }
+        }
+        .frame(height: 32)
+    }
+
+    /// Maximal ranges of consecutive active-day indices within one week row.
+    private func activeRuns(in week: [Date]) -> [Range<Int>] {
+        var runs: [Range<Int>] = []
+        var runStart: Int?
+
+        for (index, day) in week.enumerated() {
+            if viewModel.isActive(day) {
+                if runStart == nil { runStart = index }
+            } else if let start = runStart {
+                runs.append(start ..< index)
+                runStart = nil
+            }
+        }
+        if let start = runStart { runs.append(start ..< week.count) }
+        return runs
+    }
+
+    private func dayNumber(_ day: Date) -> some View {
         let isActive = viewModel.isActive(day)
         let isInMonth = viewModel.isInDisplayedMonth(day)
 
@@ -114,9 +169,6 @@ struct ProgressStreakView: View {
             .font(Typography.bodySmall)
             .foregroundStyle(isActive ? Asset.Color.white.color
                              : isInMonth ? Asset.Color.textPrimary.color : Asset.Color.textTertiary.color)
-            .frame(width: 32, height: 32)
-            .background(isActive ? Asset.Color.mainColor.color : Color.clear, in: Circle())
-            .frame(maxWidth: .infinity)
     }
 
     private static let monthFormatter: DateFormatter = {
