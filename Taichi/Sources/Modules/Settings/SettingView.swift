@@ -258,7 +258,7 @@ struct SettingRow: View {
             .padding(.leading, Layout.Spacing.m)
             .padding(.vertical, Layout.Spacing.l)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Asset.Color.colorTaichi.color)
+            .background(Asset.Color.secondaryColor.color)
             .cornerRadius(radius: Layout.CornerRadius.large, corners: corners)
         }
     }
@@ -346,7 +346,8 @@ private struct RateAppPopupView: View {
             }
         }
         .padding(Layout.Spacing.xl)
-        .background(Asset.Color.colorTaichi.color)
+//        .background(Asset.Color.colorTaichi.color)
+        .background(Asset.Color.blue.color)
         .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.large))
         .padding(.horizontal, Layout.Spacing.l)
     }
@@ -464,7 +465,8 @@ private struct FeedbackPopupView: View {
             dismissKeyboard()
         }
         .padding(Layout.Spacing.xl)
-        .background(Asset.Color.colorTaichi.color)
+//        .background(Asset.Color.colorTaichi.color)
+        .background(Asset.Color.blue.color)
         .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.xl))
         .padding(.horizontal, Layout.Spacing.l)
     }
@@ -486,7 +488,8 @@ private struct ThankYouPopupView: View {
                 .multilineTextAlignment(.center)
         }
         .padding(Layout.Spacing.xl)
-        .background(Asset.Color.colorTaichi.color)
+//        .background(Asset.Color.colorTaichi.color)
+        .background(Asset.Color.blue.color)
         .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.xl))
         .padding(.horizontal, Layout.Spacing.l)
     }

@@ -94,7 +94,7 @@ private extension FeedbackView {
         .padding(Layout.Spacing.l)
         .background(
             RoundedRectangle(cornerRadius: Layout.CornerRadius.large)
-                .fill(Asset.Color.colorTaichi.color)
+                .fill(Asset.Color.secondaryColor.color)
                 .overlay{
                     RoundedRectangle(cornerRadius: Layout.CornerRadius.large)
                         .stroke(Asset.Color.gray.color.opacity(0.2), lineWidth: 1)
@@ -129,7 +129,7 @@ private extension FeedbackView {
         .padding(Layout.Spacing.l)
         .background(
             RoundedRectangle(cornerRadius: Layout.CornerRadius.large)
-                .fill(Asset.Color.colorTaichi.color)
+                .fill(Asset.Color.secondaryColor.color)
                 .overlay{
                     RoundedRectangle(cornerRadius: Layout.CornerRadius.large)
                         .stroke(Asset.Color.gray.color.opacity(0.2), lineWidth: 1)

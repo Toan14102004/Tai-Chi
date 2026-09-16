@@ -30,7 +30,6 @@ internal enum Asset {
     internal static let playstore = ImageAsset(name: "playstore")
   }
   internal enum Color {
-    internal static let colorTaichi = ColorAsset(name: "ColorTaichi")
     internal static let bgAds = ColorAsset(name: "bgAds")
     internal static let bgCanvas = ColorAsset(name: "bgCanvas")
     internal static let bgPrimary = ColorAsset(name: "bgPrimary")
