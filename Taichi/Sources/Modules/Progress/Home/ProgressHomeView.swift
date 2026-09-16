@@ -18,7 +18,9 @@ struct ProgressHomeView: View {
                 } else if let errorMessage = viewModel.errorMessage, !viewModel.hasLoaded {
                     WorkoutErrorView(message: errorMessage, retry: viewModel.load)
                 } else {
-                    calorieCard
+                    streakCard
+
+                    statsCard
 
                     PreloadedNativeAdsView(adKey: .discoverCompact,
                                            style: .contentCard,
@@ -35,63 +37,61 @@ struct ProgressHomeView: View {
             .padding(.bottom, Layout.Spacing.xxl)
         }
         .onAppear(perform: viewModel.loadIfNeeded)
-        .sheet(isPresented: $viewModel.showingGoalEditor) {
-            ProgressCalorieGoalSheet(value: viewModel.calorieGoal, save: viewModel.saveGoal)
-                .presentationDetents([.height(220)])
-        }
         .trackScreen("progressHomeVC")
     }
 
-    private var calorieCard: some View {
-        VStack(alignment: .leading, spacing: Layout.Spacing.s) {
-            HStack {
-                Text("Daily Calories")
-                    .font(Typography.subtitleSmall)
-                    .foregroundStyle(Asset.Color.textPrimary.color)
-                Spacer()
-                if viewModel.todayCalories > 0 {
-                    Button { viewModel.showingGoalEditor = true } label: {
-                        HStack(spacing: Layout.Spacing.xs) {
-                            Text("Edit Goal")
+    /// Figma `01/02 / Progress` — Frame 230: fire icon, "Your Streak" + day count, tap through to
+    /// the streak calendar.
+    private var streakCard: some View {
+        Button(action: viewModel.openStreak) {
+            HStack(spacing: Layout.Spacing.s) {
+                Asset.Icon.Commo.fire.image.toIcon(Layout.Icon.xl)
 
-                            Asset.Icon.Commo.edit.image
-                                .toIcon(Layout.Icon.small)
-                        }
-                        .font(Typography.captionMedium)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Your Streak")
+                        .font(Typography.subtitleSmall)
+                        .foregroundStyle(Asset.Color.textPrimary.color)
+                    Text("\(viewModel.streakDays) day streak")
+                        .font(Typography.bodySmall)
                         .foregroundStyle(Asset.Color.textSecondary.color)
-                    }
                 }
-            }
 
-            HStack(spacing: Layout.Spacing.xs) {
-                Asset.Icon.Commo.fire.image.toIcon(Layout.Icon.large)
-                Text("\(Int(viewModel.todayCalories)) kcal")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundStyle(Asset.Color.mainColor.color)
-            }
-
-            HStack {
-                Text("\(Int(viewModel.todayCalories)) kcal / \(viewModel.calorieGoal) kcal")
-                    .font(Typography.captionMedium)
-                    .foregroundStyle(Asset.Color.textSecondary.color)
                 Spacer()
-                Text("\(Int((viewModel.goalFraction * 100).rounded()))% completed")
-                    .font(Typography.captionMedium)
-                    .foregroundStyle(Asset.Color.textSecondary.color)
-            }
 
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Asset.Color.borderPrimary.color)
-                    Capsule()
-                        .fill(Asset.Color.mainColor.color)
-                        .frame(width: geo.size.width * viewModel.goalFraction)
-                }
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Asset.Color.textTertiary.color)
             }
-            .frame(height: 8)
+            .padding(Layout.Spacing.m)
+            .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
-        .padding(Layout.Spacing.m)
-        .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .buttonStyle(.plain)
+    }
+
+    /// Figma `01/02 / Progress` — Frame 229: today's Workouts / Kcal / Duration, divided by a
+    /// vertical rule.
+    private var statsCard: some View {
+        HStack(spacing: 0) {
+            todayStatBox(value: "\(viewModel.todayWorkoutsCount)", caption: "Workouts")
+            Rectangle().fill(Asset.Color.borderPrimary.color).frame(width: 1, height: 60)
+            todayStatBox(value: "\(Int(viewModel.todayKcalTotal))", caption: "Kcal")
+            Rectangle().fill(Asset.Color.borderPrimary.color).frame(width: 1, height: 60)
+            todayStatBox(value: viewModel.todayDurationText, caption: "Duration")
+        }
+        .padding(.vertical, Layout.Spacing.s)
+        .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+
+    private func todayStatBox(value: String, caption: String) -> some View {
+        VStack(spacing: Layout.Spacing.xs) {
+            Text(value)
+                .font(Typography.subtitleMedium)
+                .foregroundStyle(Asset.Color.textPrimary.color)
+            Text(caption)
+                .font(Typography.labelMedium)
+                .foregroundStyle(Asset.Color.textSecondary.color)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private var dailyActivitiesCard: some View {

@@ -58,7 +58,6 @@ protocol UserDefaultService: AnyObject {
     /// Stable per-install identity, sent as the `deviceId` header on every /v1 call.
     var deviceId: String { get }
     var isDeviceRegistered: Bool { get set }
-    var dailyCalorieGoal: Int { get set }
 
     // Practice / Workout progress
     var workoutSettings: WorkoutSettings { get set }
@@ -120,7 +119,6 @@ private enum Keys {
     // Device registration
     static let deviceId = "device_id"
     static let isDeviceRegistered = "taichi_user_registered"
-    static let dailyCalorieGoal = "daily_calorie_goal"
 
     // Practice / Workout progress
     static let workoutSettings = "workout_settings"
@@ -301,10 +299,6 @@ key: Keys.practiceCompactAd,
 
     @UserDefaultWrapper(key: Keys.isDeviceRegistered, defaultValue: false)
     var isDeviceRegistered: Bool
-
-    // MARK: - Progress
-    @UserDefaultWrapper(key: Keys.dailyCalorieGoal, defaultValue: 200)
-    var dailyCalorieGoal: Int
 
     // MARK: - Practice / Workout progress
     @ObjectUserDefaultWrapper(key: Keys.workoutSettings, defaultValue: WorkoutSettings())

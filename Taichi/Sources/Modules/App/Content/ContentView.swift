@@ -118,12 +118,6 @@ case .practice:
             tabBar()
         }
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            if currentTab == .progress { viewModel.loadProgressStreakIfNeeded() }
-        }
-        .onChange(of: currentTab) { newTab in
-            if newTab == .progress { viewModel.loadProgressStreakIfNeeded() }
-        }
         .flowDestination(for: Coordinator.Navigation.self) { item in
             switch item {
             case .settingView:
@@ -202,9 +196,7 @@ case let .workoutSchedule(programId):
                 .font(Typography.headlineSmall)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            if currentTab == .progress {
-                progressStreakBadge
-            } else if !subscriptionManager.isSubscribed {
+            if !subscriptionManager.isSubscribed {
                 Button {
                     viewModel.showPremiumFullScreen()
                 } label: {
@@ -232,23 +224,6 @@ case let .workoutSchedule(programId):
             Asset.Icon.Commo.premium.image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-        }
-    }
-
-    private var progressStreakBadge: some View {
-        Button(action: viewModel.openProgressStreak) {
-            HStack(spacing: Layout.Spacing.s) {
-                Asset.Icon.Commo.fire.image.toIcon(Layout.Icon.medium)
-                
-                Text("\(viewModel.progressStreakDays)")
-                   
-            }
-            .font(Typography.bodyLarge)
-            .foregroundStyle(Asset.Color.mainColor.color)
-            .padding(.horizontal, Layout.Spacing.s)
-            .padding(.vertical, Layout.Spacing.xs)
-            .background(Asset.Color.white.color, in: Capsule())
-            .overlay(Capsule().stroke(Asset.Color.mainColor.color, lineWidth: 1))
         }
     }
 
