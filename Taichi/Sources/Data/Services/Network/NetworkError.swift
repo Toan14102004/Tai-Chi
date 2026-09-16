@@ -31,7 +31,7 @@ enum NetworkError: Error, LocalizedError {
         case let .serverError(code, message):
             message
         case let .decodingError(error):
-            "Decoding error: \(error.localizedDescription)"
+            "Decoding error: \(Self.decodingDetail(error))"
         case let .encodingError(error):
             "Encoding error: \(error.localizedDescription)"
         case .invalidURL:
@@ -53,5 +53,30 @@ enum NetworkError: Error, LocalizedError {
         case .notFound:
             "Not found"
         }
+    }
+
+    /// `DecodingError.localizedDescription` bridges to a fixed NSCocoaErrorDomain string --
+    /// "The data couldn't be read because it isn't in the correct format" -- for every one of its
+    /// cases, so it never actually says which field broke. Read the case directly instead so the
+    /// error shown to the user (and reported back) names the exact key and reason.
+    private static func decodingDetail(_ error: Error) -> String {
+        guard let decodingError = error as? DecodingError else { return error.localizedDescription }
+
+        switch decodingError {
+        case let .keyNotFound(key, context):
+            return "missing key '\(key.stringValue)' at \(path(context))"
+        case let .typeMismatch(type, context):
+            return "expected \(type) at \(path(context)) -- \(context.debugDescription)"
+        case let .valueNotFound(type, context):
+            return "missing value for \(type) at \(path(context))"
+        case let .dataCorrupted(context):
+            return "corrupted data at \(path(context)) -- \(context.debugDescription)"
+        @unknown default:
+            return decodingError.localizedDescription
+        }
+    }
+
+    private static func path(_ context: DecodingError.Context) -> String {
+        context.codingPath.isEmpty ? "<root>" : context.codingPath.map(\.stringValue).joined(separator: ".")
     }
 }

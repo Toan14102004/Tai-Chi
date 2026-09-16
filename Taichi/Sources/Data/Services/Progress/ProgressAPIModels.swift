@@ -42,7 +42,10 @@ struct ProgressRangeDTO: Codable {
 
 struct ProgressRangeDayDTO: Codable {
     let date: String
-    let durationMinutes: Int?
+    /// The server reports a fractional minute count (e.g. `2.3`), not a whole one -- declaring
+    /// this `Int` blew up decoding the entire date range the first time a day landed on a
+    /// non-whole value.
+    let durationMinutes: Double?
     let calories: Double?
     let activities: [ProgressRangeActivityDTO]?
 }
@@ -51,7 +54,11 @@ struct ProgressRangeDayDTO: Codable {
 /// about (`durationSource`/`caloriesSource` show it's always derived from a plan day, never a
 /// free-form log entry).
 struct ProgressRangeActivityDTO: Codable {
-    let activityId: String
+    /// Declared optional like every other field here, unlike the OpenAPI doc's "required" --
+    /// it's never read (`mapParticipated` composes `ParticipatedWorkout.id` from `planId`/`dayId`
+    /// instead), so it must never be the one field that takes down decoding the whole day range
+    /// if a future/edge-case activity row omits it.
+    let activityId: String?
     let planId: String?
     let dayId: String?
     let dayIndex: Int?

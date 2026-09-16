@@ -45,7 +45,7 @@ final class ProgressService {
                 return Self.eachDay(from: from, to: to).map { day in
                     let key = Self.dayFormatter.string(from: day)
                     let row = byDay[key]
-                    return ProgressDay(date: day, calories: row?.calories ?? 0, durationMinutes: row?.durationMinutes ?? 0)
+                    return ProgressDay(date: day, calories: row?.calories ?? 0, durationMinutes: Int((row?.durationMinutes ?? 0).rounded()))
                 }
             }
             .eraseToAnyPublisher()
