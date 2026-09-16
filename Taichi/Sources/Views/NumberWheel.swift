@@ -48,6 +48,12 @@ struct NumberWheel: UIViewRepresentable {
         Coordinator(self)
     }
 
+    /// `UIPickerView` has no useful intrinsic width, so without this it falls back to UIKit's
+    /// default (~320pt) and two columns side by side overflow the sheet's width entirely.
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIPickerView, context: Context) -> CGSize? {
+        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: Self.rowHeight * 5)
+    }
+
     final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
         var parent: NumberWheel
 

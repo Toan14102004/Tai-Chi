@@ -55,7 +55,9 @@ struct AddReminderTimeSheet: View {
 
             HStack(spacing: Layout.Spacing.xl) {
                 NumberWheel(values: hours, selection: $hour)
+                    .frame(maxWidth: .infinity)
                 NumberWheel(values: minutes, selection: $minute)
+                    .frame(maxWidth: .infinity)
             }
         }
         .frame(height: NumberWheel.rowHeight * 5)
