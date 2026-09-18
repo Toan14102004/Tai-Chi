@@ -170,7 +170,7 @@ struct WorkoutScheduleView: View {
             .buttonStyle(.plain)
             .disabled(day.isRestDay)
         }
-        .padding(.bottom, Layout.Spacing.xs)
+        .padding(.bottom, 12)
     }
 
     /// The connected circles running down the left edge -- the schedule's "critical path".
@@ -196,11 +196,11 @@ struct WorkoutScheduleView: View {
             .padding(.top, Layout.Spacing.m)
 
             if showsConnector {
-                // Coral once the day above is finished, matching the finished dot's colour;
-                // otherwise the same hairline grey as everywhere else (Figma `2016:160` ->
-                // `Line 15`, `#FF8D76` leaving Day 1, `#EAEAEA` leaving Day 2+).
-                Rectangle()
-                    .fill(state == .finished ? Asset.Color.mainColor.color : Asset.Color.borderPrimary.color)
+                // Dashed, per design: mainColor once the day above is finished, matching the
+                // finished dot's colour, otherwise the same hairline grey as everywhere else.
+                DashedVerticalLine()
+                    .stroke(state == .finished ? Asset.Color.mainColor.color : Asset.Color.borderPrimary.color,
+                            style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
                     .frame(width: 1)
                     .frame(maxHeight: .infinity)
             }
@@ -252,5 +252,16 @@ struct WorkoutScheduleView: View {
                     }
                 }
         }
+    }
+}
+
+/// A single vertical segment, top to bottom of its frame -- meant to be stroked with a `dash`
+/// style so the timeline's connector reads as a dashed line rather than solid.
+private struct DashedVerticalLine: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        return path
     }
 }
