@@ -163,12 +163,6 @@ extension AppOpenAdService: FullScreenContentDelegate {
 
         onDismissed?()
         lastTimeShowAppOpen = Int64(Date().timeIntervalSince1970 * 1000)
-        
-//        let adPlacement = localStorageService.gpsCameraOpenResume
-//        let adPlacementHight = localStorageService.gpsCameraOpenResumeHight
-//        print("[AppOpenAd] Triggering reload after dismiss")
-//        adsManager.loadAppOpenAd(adPlacement: adPlacement, adPlacementHight: adPlacementHight)
-        
     }
 
     func ad(_ ad: any FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: any Error) {

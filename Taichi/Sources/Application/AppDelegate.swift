@@ -52,7 +52,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         Dependency { LoadingService() }
         Dependency { AnalyticsService() }
         Dependency { AppConfigService() }
-        Dependency { GitHubDataService() }
     }
 
     func application(

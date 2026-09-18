@@ -141,8 +141,8 @@ private extension SplashView {
     }
     
     func showSplashInter(action: @escaping () -> Void) {
-        let adPlacement = localStorageService.foodInterSplash
-        let adPlacementHight = localStorageService.foodInterSplashHight
+        let adPlacement = localStorageService.splashInterAd
+        let adPlacementHight = localStorageService.splashInterAdHigh
         adsManager.showSplashInterstitial(
             adPlacement: adPlacement,
             adPlacementHigh: adPlacementHight,

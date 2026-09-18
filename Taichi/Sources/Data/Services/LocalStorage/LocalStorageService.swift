@@ -25,16 +25,16 @@ protocol UserDefaultService: AnyObject {
     var distanceTimeShowSameAds: Int { get set }
     
     // Taichi - Inter
-    var foodInterSplash: AdPlacement { get set }
-    var foodInterSplashHight: AdPlacement { get set }
-    var foodInterShare: AdPlacement { get set }
-    var foodInterShareHight: AdPlacement { get set }
-    
+    var splashInterAd: AdPlacement { get set }
+    var splashInterAdHigh: AdPlacement { get set }
+    var shareInterAd: AdPlacement { get set }
+    var shareInterAdHigh: AdPlacement { get set }
+
     // Taichi - Native
-    var foodNativeLanguage: AdPlacement { get set }
-    var foodNativeLanguageClick: AdPlacement { get set }
-    var foodNativeLanguageClickHight: AdPlacement { get set }
-    var foodNativeLanguageHight: AdPlacement { get set }
+    var languageNativeAd: AdPlacement { get set }
+    var languageClickNativeAd: AdPlacement { get set }
+    var languageClickNativeAdHigh: AdPlacement { get set }
+    var languageNativeAdHigh: AdPlacement { get set }
     var profileSetupCompactAd: AdPlacement { get set }
     var profileSetupMediumAd: AdPlacement { get set }
     var practiceCompactAd: AdPlacement { get set }
@@ -93,16 +93,16 @@ private enum Keys {
     static let distanceTimeShowSameAds = "distance_time_show_same_ads"
     
     // Taichi - Inter
-    static let foodInterSplash = "food_inter_splash"
-    static let foodInterSplashHight = "food_inter_splash_high"
-    static let foodInterShare = "food_inter_share"
-    static let foodInterShareHight = "food_inter_share_high"
-    
+    static let splashInterAd = "splash_inter_ad"
+    static let splashInterAdHigh = "splash_inter_ad_high"
+    static let shareInterAd = "share_inter_ad"
+    static let shareInterAdHigh = "share_inter_ad_high"
+
     // Taichi - Native
-    static let foodNativeLanguage = "food_native_language"
-    static let foodNativeLanguageHight = "food_native_language_high"
-    static let foodNativeLanguageClick = "food_native_language_click"
-    static let foodNativeLanguageClickHight = "food_native_language_click_high"
+    static let languageNativeAd = "language_native_ad"
+    static let languageNativeAdHigh = "language_native_ad_high"
+    static let languageClickNativeAd = "language_click_native_ad"
+    static let languageClickNativeAdHigh = "language_click_native_ad_high"
     static let profileSetupCompactAd = "profile_setup_compact_ad"
     static let profileSetupMediumAd = "profile_setup_medium_ad"
     static let practiceCompactAd = "practice_compact_ad"
@@ -179,53 +179,53 @@ class LocalStorageService: UserDefaultService {
     
     // Inter
     @ObjectUserDefaultWrapper(
-        key: Keys.foodInterSplash,
+        key: Keys.splashInterAd,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/1033173712", isEnabled: true)
     )
-    var foodInterSplash: AdPlacement
-    
+    var splashInterAd: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodInterSplashHight,
+        key: Keys.splashInterAdHigh,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/1033173712", isEnabled: true)
     )
-    var foodInterSplashHight: AdPlacement
-    
+    var splashInterAdHigh: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodInterShare,
+        key: Keys.shareInterAd,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/1033173712", isEnabled: true)
     )
-    var foodInterShare: AdPlacement
-    
+    var shareInterAd: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodInterShareHight,
+        key: Keys.shareInterAdHigh,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/1033173712", isEnabled: true)
     )
-    var foodInterShareHight: AdPlacement
-    
-    // Inter
+    var shareInterAdHigh: AdPlacement
+
+    // Native
     @ObjectUserDefaultWrapper(
-        key: Keys.foodNativeLanguage,
+        key: Keys.languageNativeAd,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/2247696110", isEnabled: true)
     )
-    var foodNativeLanguage: AdPlacement
-    
+    var languageNativeAd: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodNativeLanguageHight,
+        key: Keys.languageNativeAdHigh,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/2247696110", isEnabled: true)
     )
-    var foodNativeLanguageHight: AdPlacement
-    
+    var languageNativeAdHigh: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodNativeLanguageClick,
+        key: Keys.languageClickNativeAd,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/2247696110", isEnabled: true)
     )
-    var foodNativeLanguageClick: AdPlacement
-    
+    var languageClickNativeAd: AdPlacement
+
     @ObjectUserDefaultWrapper(
-        key: Keys.foodNativeLanguageClickHight,
+        key: Keys.languageClickNativeAdHigh,
         defaultValue: AdPlacement(id: "ca-app-pub-3940256099942544/2247696110", isEnabled: true)
     )
-    var foodNativeLanguageClickHight: AdPlacement
+    var languageClickNativeAdHigh: AdPlacement
 
     @ObjectUserDefaultWrapper(
         key: Keys.profileSetupCompactAd,

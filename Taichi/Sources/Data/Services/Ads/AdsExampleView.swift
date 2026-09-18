@@ -13,37 +13,10 @@ struct AdsExampleView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            
-//            NativeAdsView(
-//                adPlacement: localStorageService.gpsCameraNativeLanguage,
-//                style: .large(),
-//                height: 260
-//            )
-            
-//            GeometryReader { proxy in
-//                NativeAdsView(
-//                    adPlacement: localStorageService.gpsCameraNativeLanguage,
-//                    style: .fullScreen,
-//                    height: proxy.size.height
-//                )
-//            }
-            
-            
-            
-//            BannerAdsView(adPlacement: localStorageService.bannerHome)
-//
             NativeAdsView(adPlacement: .init(id: "ca-app-pub-3940256099942544/2247696110", isEnabled: true), style: .video, height: 260)
                 .background(.gray)
-            
-//            Spacer()
-//
-//            NativeAdsView(adPlacement: localStorageService.gpsCameraNativeLanguage, style: .large(), height: 250)
-//                .background(.gray)
-//
+
 //            NativeAdsView(adPlacement: .init(id: "ca-app-pub-3940256099942544/3986624511", isEnabled: true), style: .large(), height: 250)
-//                .background(.gray)
-            
-//            NativeAdsView(adPlacement: localStorageService.gpsCameraNativeLanguage, style: .large(isFilled: false), height: 250)
 //                .background(.gray)
 
 //            Spacer()

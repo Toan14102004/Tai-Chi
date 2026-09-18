@@ -61,14 +61,6 @@ struct RealSystemEventsHandler: SystemEventsHandler {
 
     func sceneDidBecomeActive() {
         container.appState[\.system.isActive] = true
-        // Handle app resume for open resume ads
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 200_000_000) // 0.2s
-            
-//            let adPlacement = localStorageService.gpsCameraInterSplash
-//            let adPlacementHight = localStorageService.gpsCameraInterSplashHight
-//            adsManager.showSplashInterstitial(adPlacement: adPlacement, adPlacementHigh: adPlacementHight)
-        }
     }
 
     func sceneWillResignActive() {

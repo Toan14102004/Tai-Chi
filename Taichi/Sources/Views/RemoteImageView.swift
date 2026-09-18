@@ -9,8 +9,8 @@ import Kingfisher
 import SwiftUI
 
 /// Photos served by the Taichi API (`upload-services.limgrow.com`, mostly `.webp`).
-/// Unlike `GithubImageView` this sends no auth header and applies no corner radius of its own --
-/// callers clip it, so the same view works for hero images, cards, and list thumbnails.
+/// Sends no auth header and applies no corner radius of its own -- callers clip it, so the same
+/// view works for hero images, cards, and list thumbnails.
 struct RemoteImageView: View {
     let url: URL?
     var contentMode: SwiftUI.ContentMode = .fill

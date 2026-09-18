@@ -17,7 +17,7 @@ extension SubscriptionView {
         case home
         case library
         case settings
-        case foodInfo
+        case taichiInfo
         case discover
         
         var trackImpressionName: String {
@@ -32,7 +32,7 @@ extension SubscriptionView {
                 "PW_Settings_impression"
             case .library:
                 "PW_Library_impression"
-            case .foodInfo:
+            case .taichiInfo:
                 "PW_Taichi_Info"
             case .discover:
                 "PW_Discover_impression"
@@ -51,7 +51,7 @@ extension SubscriptionView {
                 "Premium settings"
             case .library:
                 "Premium library"
-            case .foodInfo:
+            case .taichiInfo:
                 "Premium Taichi Info"
             case .discover:
                 "Premium discover"
@@ -70,7 +70,7 @@ extension SubscriptionView {
                 "PremiumSettingVC"
             case .library:
                 "PremiumLibraryVC"
-            case .foodInfo:
+            case .taichiInfo:
                 "PremiumTaichiInfoVC"
             case .discover:
                 "PremiumDiscoverVC"
@@ -89,7 +89,7 @@ extension SubscriptionView {
                 "PW_Settings_cancel"
             case .library:
                 "PW_Library_cancel"
-            case .foodInfo:
+            case .taichiInfo:
                 "PW_Taichi_Info_cancel"
             case .discover:
                 "PW_Discover_cancel"
@@ -108,7 +108,7 @@ extension SubscriptionView {
                 "PW_Settings_buy"
             case .library:
                 "PW_Library_buy"
-            case .foodInfo:
+            case .taichiInfo:
                 "PW_Taichi_Info_buy"
             case .discover:
                 "PW_Discover_buy"

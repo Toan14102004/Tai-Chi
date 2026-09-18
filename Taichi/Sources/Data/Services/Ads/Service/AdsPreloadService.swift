@@ -68,13 +68,13 @@ case practiceCompact
     
     private func configureAdPlacements() {
         // Configure native language ads (only register, do not load)
-        let languageAd = localStorageService.foodNativeLanguage
-        let languageAdHight = localStorageService.foodNativeLanguageHight
+        let languageAd = localStorageService.languageNativeAd
+        let languageAdHight = localStorageService.languageNativeAdHigh
         adConfigurations[.language] = (languageAd, languageAdHight)
-        
+
         // Configure native language click ads (only register, do not load)
-        let languageClickAd = localStorageService.foodNativeLanguageClick
-        let languageClickAdHight = localStorageService.foodNativeLanguageClickHight
+        let languageClickAd = localStorageService.languageClickNativeAd
+        let languageClickAdHight = localStorageService.languageClickNativeAdHigh
         adConfigurations[.languageClick] = (languageClickAd, languageClickAdHight)
 
         // Configure native Profile Setup ads (only register, do not load)

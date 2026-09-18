@@ -32,7 +32,6 @@ struct PreviewModifier: ViewModifier {
                         Dependency { KeychainStorage() }
                         Dependency { AdsPreloadService() }
                         Dependency { SubscriptionManager() }
-                        Dependency { GitHubDataService() }
                         Dependency { WorkoutService() }
                         Dependency { DeviceRegistrationService() }
                         Dependency { WorkoutProgressStore() }
