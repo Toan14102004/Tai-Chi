@@ -95,16 +95,6 @@ struct WorkoutSessionView: View {
             }
             .padding(Layout.Spacing.m)
             .padding(.top, UIApplication.shared.safeAreaTop)
-
-            // The countdown sits over the photo, large and translucent, as in the design. It stays
-            // in the hierarchy and only fades: adding and removing a sibling would re-create the
-            // player next to it, restarting the clip exactly at the Get ready -> Exercise handover.
-            Text("\(viewModel.remainingSeconds)")
-                .font(.system(size: 64, weight: .bold, design: .rounded))
-                .foregroundStyle(Asset.Color.white.color.opacity(0.85))
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                .padding(.top, UIApplication.shared.safeAreaTop)
-                .opacity(viewModel.phase == .getReady ? 1 : 0)
         }
         // Without an explicit height here, the centered countdown's `maxHeight: .infinity` lets
         // this ZStack grow to whatever its parent VStack offers.
@@ -127,22 +117,30 @@ struct WorkoutSessionView: View {
 
     private var getReadyBody: some View {
         VStack(spacing: Layout.Spacing.s) {
+            Text("\(viewModel.remainingSeconds)")
+                .font(.system(size: 40, weight: .medium, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(Asset.Color.mainColor.color)
+
             Text("Get ready!")
                 .font(Typography.headlineSmall)
                 .foregroundStyle(Asset.Color.textPrimary.color)
 
             exerciseNameRow
 
-            Button("Skip", action: viewModel.skip)
-                .font(Typography.labelMedium)
-                .foregroundStyle(Asset.Color.textSecondary.color)
-                .padding(.horizontal, Layout.Spacing.xl)
-                .padding(.vertical, Layout.Spacing.s)
-                .background(Asset.Color.bgSecondary.color)
-                .clipShape(Capsule())
+            skipButton
                 .padding(.top, Layout.Spacing.s)
         }
         .frame(maxWidth: .infinity)
+    }
+
+    private var skipButton: some View {
+        Button("Skip", action: viewModel.skip)
+            .font(Typography.bodyLarge)
+            .foregroundStyle(Asset.Color.white.color)
+            .frame(width: 168, height: 46)
+            .background(Asset.Color.mainColor.color)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 
     private var exerciseBody: some View {
@@ -150,7 +148,7 @@ struct WorkoutSessionView: View {
             Text(viewModel.timerLabel)
                 .font(.system(size: 40, weight: .bold, design: .rounded))
                 .monospacedDigit()
-                .foregroundStyle(Self.accent)
+                .foregroundStyle(Asset.Color.mainColor.color)
 
             exerciseNameRow
 
