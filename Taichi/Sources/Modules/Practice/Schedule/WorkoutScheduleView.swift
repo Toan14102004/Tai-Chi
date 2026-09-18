@@ -239,18 +239,19 @@ struct WorkoutScheduleView: View {
         switch state {
         case .finished:
             Asset.Icon.Commo.checkmarkCircle.image.toIcon(Layout.Icon.medium)
-        case .current, .upcoming:
+        case .current:
+            // Only the day the user can actually start now gets the actionable Play button --
+            // days further out aren't reachable yet, so they get a plain ring instead (B_13).
             Image(systemName: "play.fill")
                 .font(.system(size: 11))
-                .foregroundStyle(state == .current ? Asset.Color.white.color : Asset.Color.mainColor.color)
+                .foregroundStyle(Asset.Color.white.color)
                 .frame(width: Layout.Icon.medium, height: Layout.Icon.medium)
-                .background(state == .current ? Asset.Color.mainColor.color : Color.clear)
+                .background(Asset.Color.mainColor.color)
                 .clipShape(Circle())
-                .overlay {
-                    if state == .upcoming {
-                        Circle().stroke(Asset.Color.mainColor.color, lineWidth: 1.5)
-                    }
-                }
+        case .upcoming:
+            Circle()
+                .stroke(Asset.Color.mainColor.color, lineWidth: 1.5)
+                .frame(width: Layout.Icon.medium, height: Layout.Icon.medium)
         }
     }
 }
