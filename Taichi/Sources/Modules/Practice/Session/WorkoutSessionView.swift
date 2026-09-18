@@ -11,13 +11,7 @@ import SwiftUI
 /// The guided workout, following the Flow Practice screens in Figma: a Get ready countdown, then
 /// each exercise with its clip looping against a timer, rest intervals that preview what is next,
 /// a pause screen offering a way out, and a completion screen.
-///
-/// Colours and metrics are read off design screenshots -- the Figma API is still rate limited --
-/// so the accent below is an approximation to re-verify.
 struct WorkoutSessionView: View {
-    /// The timer and headings use a violet that is not in the asset catalogue yet.
-    static let accent = Color(hex: "#6C5DD3")
-
     @StateObject private var viewModel: ViewModel
     @Environment(\.scenePhase) private var scenePhase
 
@@ -297,7 +291,7 @@ struct WorkoutSessionView: View {
 
             Text("All Done!")
                 .font(FontFamily.Inter.bold.font(size: 26))
-                .foregroundStyle(Self.accent)
+                .foregroundStyle(Asset.Color.secondaryColor.color)
 
             Text("You've completed all your workouts today. Your body is getting stronger keep it up!")
                 .font(Typography.bodyMedium)
