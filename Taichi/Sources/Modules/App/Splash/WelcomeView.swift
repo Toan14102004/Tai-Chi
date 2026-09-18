@@ -14,30 +14,6 @@ struct WelcomeView: View {
         Group {
             VStack(spacing: 0) {
                 Spacer()
-                
-                HStack(spacing: 10) {
-                    Asset.Icon.Commo.leafLeft.image
-                        .toIcon(Layout.Icon.xxl)
-
-                    VStack(alignment: .center, spacing: 0) {
-                        Text("1.000.000+")
-                            .font(FontFamily.Inter.bold.font(size: 16))
-                        Text("Download the App")
-                            .font(FontFamily.Inter.regular.font(size: 14))
-                        HStack(spacing: 0) {
-                            ForEach(0..<5, id: \.self) { _ in
-                                Image(systemName: "star.fill")
-                                    .font(.system(size: 12))
-                                    .frame(width: 16, height: 16)
-                                    .foregroundStyle(Color(hex: "F9BF01"))
-                            }
-                        }
-                    }
-
-                    Asset.Icon.Commo.leafRight.image
-                        .toIcon(Layout.Icon.xxl)
-                }
-                .padding(.bottom, Layout.Spacing.m)
 
                 Text("Your Tai Chi Journey Starts Here")
                     .font(FontFamily.Inter.bold.font(size: 24))
