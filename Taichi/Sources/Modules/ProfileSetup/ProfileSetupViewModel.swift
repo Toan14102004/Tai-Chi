@@ -19,6 +19,8 @@ extension ProfileSetupView {
         @Published var answers = ProfileSetupAnswers()
 
         @Published var heightText: String = ""
+        @Published var heightFeetText: String = ""
+        @Published var heightInchesText: String = ""
         @Published var currentWeightText: String = ""
         @Published var targetWeightText: String = ""
         @Published var ageText: String = ""
@@ -39,7 +41,11 @@ extension ProfileSetupView {
 
         var isNextEnabled: Bool {
             switch currentStep {
-            case .height: return !heightText.isEmpty && heightErrorText == nil
+            case .height:
+                switch answers.heightUnit {
+                case .centimeters: return !heightText.isEmpty && heightErrorText == nil
+                case .feetInches: return !heightFeetText.isEmpty && heightErrorText == nil
+                }
             case .weight: return !currentWeightText.isEmpty && currentWeightErrorText == nil
             case .targetWeight: return !targetWeightText.isEmpty && targetWeightErrorText == nil
             case .age: return !ageText.isEmpty && !showAgeError
@@ -66,7 +72,8 @@ extension ProfileSetupView {
         var progressNumerator: Int {
             let base = currentStep.rawValue + 1
             if currentStep == .height {
-                return heightText.isEmpty ? base : base + 1
+                let hasValue = answers.heightUnit == .centimeters ? !heightText.isEmpty : !heightFeetText.isEmpty
+                return hasValue ? base + 1 : base
             }
             return currentStep.rawValue > ProfileSetupStep.height.rawValue ? base + 1 : base
         }
@@ -107,17 +114,62 @@ extension ProfileSetupView {
         // MARK: - Unit conversion
 
         func heightUnitChanged() {
-            guard let cm = parsedHeightCm(from: heightText, unit: answers.heightUnit == .centimeters ? .feetInches : .centimeters) else { return }
-            heightText = answers.heightUnit == .centimeters ? "\(cm)" : "\(Int((Double(cm) / 2.54).rounded()))"
+            let oldUnit: HeightUnit = answers.heightUnit == .centimeters ? .feetInches : .centimeters
+            let cm: Int?
+            switch oldUnit {
+            case .centimeters:
+                cm = Int(heightText)
+            case .feetInches:
+                cm = heightCm(feet: heightFeetText, inches: heightInchesText)
+            }
+            guard let cm else { return }
+            switch answers.heightUnit {
+            case .centimeters:
+                heightText = "\(cm)"
+            case .feetInches:
+                let totalInches = Int((Double(cm) / 2.54).rounded())
+                heightFeetText = "\(totalInches / 12)"
+                heightInchesText = "\(totalInches % 12)"
+            }
             validateHeight()
         }
 
         func validateHeight() {
-            guard !heightText.isEmpty, let cm = parsedHeightCm(from: heightText, unit: answers.heightUnit) else {
+            guard let cm = currentHeightCm() else {
                 heightErrorText = nil
                 return
             }
-            heightErrorText = Self.heightRangeCm.contains(cm) ? nil : "Height must be 80-250 cm"
+            heightErrorText = Self.heightRangeCm.contains(cm) ? nil : heightRangeErrorMessage()
+        }
+
+        /// The height currently entered, in cm, regardless of which unit is displayed.
+        private func currentHeightCm() -> Int? {
+            switch answers.heightUnit {
+            case .centimeters:
+                guard !heightText.isEmpty else { return nil }
+                return Int(heightText)
+            case .feetInches:
+                return heightCm(feet: heightFeetText, inches: heightInchesText)
+            }
+        }
+
+        private func heightCm(feet: String, inches: String) -> Int? {
+            guard !feet.isEmpty || !inches.isEmpty else { return nil }
+            let totalInches = (Int(feet) ?? 0) * 12 + (Int(inches) ?? 0)
+            return Int((Double(totalInches) * 2.54).rounded())
+        }
+
+        /// The `heightRangeCm` bounds converted to whole feet/inches, for display purposes only --
+        /// validation itself always happens in cm so both units share one source of truth.
+        private func heightRangeErrorMessage() -> String {
+            switch answers.heightUnit {
+            case .centimeters:
+                return "Height must be \(Self.heightRangeCm.lowerBound)-\(Self.heightRangeCm.upperBound) cm"
+            case .feetInches:
+                let minInches = Int((Double(Self.heightRangeCm.lowerBound) / 2.54).rounded())
+                let maxInches = Int((Double(Self.heightRangeCm.upperBound) / 2.54).rounded())
+                return "Height must be \(minInches / 12) ft \(minInches % 12) in - \(maxInches / 12) ft \(maxInches % 12) in"
+            }
         }
 
         func weightUnitChanged(text: inout String) {
@@ -131,14 +183,6 @@ extension ProfileSetupView {
                 return
             }
             errorBinding = Self.weightRangeKg.contains(kg) ? nil : "Weight must be 20-500 kg"
-        }
-
-        private func parsedHeightCm(from text: String, unit: HeightUnit) -> Int? {
-            guard let raw = Int(text) else { return nil }
-            switch unit {
-            case .centimeters: return raw
-            case .feetInches: return Int((Double(raw) * 2.54).rounded())
-            }
         }
 
         private func parsedWeightKg(from text: String, unit: WeightUnit) -> Double? {
@@ -164,7 +208,7 @@ extension ProfileSetupView {
             case .height:
                 validateHeight()
                 guard heightErrorText == nil else { return }
-                answers.heightCm = parsedHeightCm(from: heightText, unit: answers.heightUnit)
+                answers.heightCm = currentHeightCm()
             case .weight:
                 validateWeight(currentWeightText, errorBinding: &currentWeightErrorText)
                 guard currentWeightErrorText == nil else { return }
