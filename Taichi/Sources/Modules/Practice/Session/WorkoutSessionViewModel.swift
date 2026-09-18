@@ -266,11 +266,14 @@ extension WorkoutSessionView {
             beginExercise()
         }
 
-        /// "Do it later" -- leaves the session; progress up to here is already saved.
+        /// "Do it later" -- leaves the session for the Plan tab root; progress up to here is
+        /// already saved. Pops the whole stack rather than a single `goBack()` because the
+        /// session can be reached at different depths (Plan -> Day -> Session, or Plan ->
+        /// Schedule -> Day -> Session).
         func doItLater() {
             stopTimer()
             musicPlayer.stop()
-            navigator.goBack()
+            navigator.goBackToRoot()
         }
 
         /// Leaving the app pauses rather than quietly accruing time the user did not exercise.
