@@ -66,7 +66,7 @@ extension WorkoutSessionView {
 
         var positionLabel: String { "Exercise \(index + 1)/\(exercises.count)" }
 
-        var nextPositionLabel: String { "Next: \(min(index + 2, exercises.count))/\(exercises.count)" }
+        var nextPositionLabel: String { "Next \(min(index + 2, exercises.count))/\(exercises.count)" }
 
         var timerLabel: String {
             String(format: "%02d:%02d", remainingSeconds / 60, remainingSeconds % 60)

@@ -164,31 +164,18 @@ struct WorkoutSessionView: View {
 
     private var restBody: some View {
         VStack(spacing: Layout.Spacing.s) {
-            HStack {
-                Text(viewModel.nextPositionLabel)
-                    .font(Typography.captionMedium)
-                    .foregroundStyle(Asset.Color.textSecondary.color)
-                Spacer()
-                nameWithInfo(viewModel.nextExercise?.name ?? "")
-            }
+            Text(viewModel.timerLabel)
+                .font(.system(size: 40, weight: .bold, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(Asset.Color.mainColor.color)
 
             Text("Rest")
                 .font(Typography.subtitleSmall)
                 .foregroundStyle(Asset.Color.textPrimary.color)
-                .padding(.top, Layout.Spacing.s)
 
-            Text(viewModel.timerLabel)
-                .font(.system(size: 40, weight: .bold, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(Self.accent)
+            nameWithInfo("\(viewModel.nextPositionLabel): \(viewModel.nextExercise?.name ?? "")")
 
-            Button("Skip", action: viewModel.skip)
-                .font(Typography.labelMedium)
-                .foregroundStyle(Asset.Color.white.color)
-                .padding(.horizontal, Layout.Spacing.xl)
-                .padding(.vertical, Layout.Spacing.s)
-                .background(Asset.Color.mainColor.color)
-                .clipShape(Capsule())
+            skipButton
                 .padding(.top, Layout.Spacing.s)
         }
         .frame(maxWidth: .infinity)
