@@ -17,20 +17,20 @@ struct WorkoutScheduleView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            ZStack(alignment: .topLeading) {
-                RemoteImageView(url: viewModel.heroImageUrl)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
+        ScrollView {
+            VStack(spacing: 0) {
+                ZStack(alignment: .topLeading) {
+                    RemoteImageView(url: viewModel.heroImageUrl)
+                        .frame(width: UIScreen.main.bounds.width,
+                               height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
-                HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
-                    .padding(Layout.Spacing.m)
-                    .padding(.top, UIApplication.shared.safeAreaTop)
-            }
-            .clipped()
-            .ignoresSafeArea(edges: .top)
+                    HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
+                        .padding(Layout.Spacing.m)
+                        .padding(.top, UIApplication.shared.safeAreaTop)
+                }
+                .clipped()
+                .ignoresSafeArea(edges: .top)
 
-            ScrollView {
                 VStack(alignment: .leading, spacing: Layout.Spacing.l) {
                     PreloadedNativeAdsView(adKey: .practiceCompact,
                                            style: .contentCard,

@@ -16,37 +16,39 @@ struct WorkoutDayView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .top) {
-                // The hero runs edge to edge behind the status bar, so its height carries the
-                // safe-area inset on top of the 220pt the design shows below it.
-                RemoteImageView(url: viewModel.day?.imageUrl)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
-
-                HStack {
-                    HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
-                    Spacer()
-                    HeroOverlaySettingsButton(action: viewModel.openSettings)
-                }
-                .padding(Layout.Spacing.m)
-                .padding(.top, UIApplication.shared.safeAreaTop)
-            }
-            .clipped()
-            .ignoresSafeArea(edges: .top)
-
             ScrollView {
-                VStack(alignment: .leading, spacing: Layout.Spacing.m) {
-                    PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
+                VStack(spacing: 0) {
+                    ZStack(alignment: .top) {
+                        // The hero runs edge to edge behind the status bar, so its height carries
+                        // the safe-area inset on top of the 220pt the design shows below it.
+                        RemoteImageView(url: viewModel.day?.imageUrl)
+                            .frame(width: UIScreen.main.bounds.width,
+                                   height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
-                    if viewModel.isLoading, viewModel.day == nil {
-                        WorkoutDetailSkeletonView()
-                    } else if let errorMessage = viewModel.errorMessage, viewModel.day == nil {
-                        WorkoutErrorView(message: errorMessage, retry: viewModel.load)
-                    } else if let day = viewModel.day {
-                        content(day)
+                        HStack {
+                            HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
+                            Spacer()
+                            HeroOverlaySettingsButton(action: viewModel.openSettings)
+                        }
+                        .padding(Layout.Spacing.m)
+                        .padding(.top, UIApplication.shared.safeAreaTop)
                     }
+                    .clipped()
+                    .ignoresSafeArea(edges: .top)
+
+                    VStack(alignment: .leading, spacing: Layout.Spacing.m) {
+                        PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
+
+                        if viewModel.isLoading, viewModel.day == nil {
+                            WorkoutDetailSkeletonView()
+                        } else if let errorMessage = viewModel.errorMessage, viewModel.day == nil {
+                            WorkoutErrorView(message: errorMessage, retry: viewModel.load)
+                        } else if let day = viewModel.day {
+                            content(day)
+                        }
+                    }
+                    .padding(Layout.Spacing.m)
                 }
-                .padding(Layout.Spacing.m)
             }
 
             if viewModel.day != nil {

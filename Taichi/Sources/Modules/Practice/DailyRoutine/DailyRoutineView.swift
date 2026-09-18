@@ -16,10 +16,10 @@ struct DailyRoutineView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            hero
+        ScrollView {
+            VStack(spacing: 0) {
+                hero
 
-            ScrollView {
                 // Every child insets itself 16pt; the stack carries no padding of its own.
                 VStack(alignment: .leading, spacing: Layout.Spacing.m) {
                     PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)

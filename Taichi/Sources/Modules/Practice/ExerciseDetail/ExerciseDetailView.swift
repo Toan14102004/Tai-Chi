@@ -19,32 +19,34 @@ struct ExerciseDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .topLeading) {
-                hero
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
-                    .clipped()
-
-                HeroOverlayButton(image: Asset.Icon.Commo.xmark, iconSize: 12, action: viewModel.close)
-                    .padding(Layout.Spacing.m)
-                    .padding(.top, UIApplication.shared.safeAreaTop)
-            }
-            .clipped()
-            .ignoresSafeArea(edges: .top)
-
             ScrollView {
-                VStack(alignment: .leading, spacing: Layout.Spacing.m) {
-                    PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
+                VStack(spacing: 0) {
+                    ZStack(alignment: .topLeading) {
+                        hero
+                            .frame(width: UIScreen.main.bounds.width,
+                                   height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
+                            .clipped()
 
-                    if viewModel.isLoading, viewModel.exercise == nil {
-                        ProgressView().frame(maxWidth: .infinity).padding(.top, Layout.Spacing.xxl)
-                    } else if let errorMessage = viewModel.errorMessage, viewModel.exercise == nil {
-                        WorkoutErrorView(message: errorMessage, retry: viewModel.load)
-                    } else if let exercise = viewModel.exercise {
-                        content(exercise)
+                        HeroOverlayButton(image: Asset.Icon.Commo.xmark, iconSize: 12, action: viewModel.close)
+                            .padding(Layout.Spacing.m)
+                            .padding(.top, UIApplication.shared.safeAreaTop)
                     }
+                    .clipped()
+                    .ignoresSafeArea(edges: .top)
+
+                    VStack(alignment: .leading, spacing: Layout.Spacing.m) {
+                        PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
+
+                        if viewModel.isLoading, viewModel.exercise == nil {
+                            ProgressView().frame(maxWidth: .infinity).padding(.top, Layout.Spacing.xxl)
+                        } else if let errorMessage = viewModel.errorMessage, viewModel.exercise == nil {
+                            WorkoutErrorView(message: errorMessage, retry: viewModel.load)
+                        } else if let exercise = viewModel.exercise {
+                            content(exercise)
+                        }
+                    }
+                    .padding(Layout.Spacing.m)
                 }
-                .padding(Layout.Spacing.m)
             }
             .onChange(of: viewModel.draftDurationSeconds) { _ in
                 if viewModel.draftDurationSeconds != viewModel.exercise?.durationSeconds {

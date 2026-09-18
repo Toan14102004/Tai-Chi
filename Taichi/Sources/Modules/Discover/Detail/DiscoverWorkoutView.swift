@@ -22,19 +22,21 @@ struct DiscoverWorkoutView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            hero
-
             ScrollView {
-                VStack(alignment: .leading, spacing: Layout.Spacing.m) {
-                    if viewModel.isLoading, viewModel.day == nil {
-                        WorkoutDetailSkeletonView()
-                    } else if let errorMessage = viewModel.errorMessage, viewModel.day == nil {
-                        WorkoutErrorView(message: errorMessage, retry: viewModel.load)
-                    } else if let day = viewModel.day {
-                        content(day)
+                VStack(spacing: 0) {
+                    hero
+
+                    VStack(alignment: .leading, spacing: Layout.Spacing.m) {
+                        if viewModel.isLoading, viewModel.day == nil {
+                            WorkoutDetailSkeletonView()
+                        } else if let errorMessage = viewModel.errorMessage, viewModel.day == nil {
+                            WorkoutErrorView(message: errorMessage, retry: viewModel.load)
+                        } else if let day = viewModel.day {
+                            content(day)
+                        }
                     }
+                    .padding(Layout.Spacing.m)
                 }
-                .padding(Layout.Spacing.m)
             }
 
             if viewModel.day != nil {
