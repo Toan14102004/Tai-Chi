@@ -22,7 +22,7 @@ enum AppFlags {
     // MARK: - The two switches to flip for version 2
 
     /// Ships every ad surface: native, banner, interstitial, rewarded and app-open.
-    private static let adsShipped = true
+    private static let adsShipped = false
 
     /// Ships in-app purchases: the paywall, every entry point into it, and the premium upsell UI.
     private static let iapShipped = false
