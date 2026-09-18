@@ -28,8 +28,8 @@ struct ProgressHomeView: View {
 
                     dailyActivitiesCard
 
-                    weeklyChart(title: "Duration", suffix: "min", uniformColor: false) { Double($0.durationMinutes) }
-                    weeklyChart(title: "Calories", suffix: "Kcal", uniformColor: true) { $0.calories }
+                    weeklyChart(title: "Duration", suffix: "min") { Double($0.durationMinutes) }
+                    weeklyChart(title: "Calories", suffix: "Kcal") { $0.calories }
                         .padding(.bottom, Layout.Spacing.m)
                 }
             }
@@ -377,7 +377,7 @@ struct ProgressHomeView: View {
             .foregroundStyle(Asset.Color.textSecondary.color)
     }
 
-    private func weeklyChart(title: String, suffix: String, uniformColor: Bool, value: @escaping (ProgressDay) -> Double) -> some View {
+    private func weeklyChart(title: String, suffix: String, value: @escaping (ProgressDay) -> Double) -> some View {
         let days = viewModel.weekDays
         let maxValue = max(days.map(value).max() ?? 0, 1)
         let total = days.map(value).reduce(0, +)
@@ -435,7 +435,7 @@ struct ProgressHomeView: View {
                                 .frame(width: 9, height: 90)
                             if value(day) > 0 {
                                 Capsule()
-                                    .fill(barColor(for: day, uniform: uniformColor))
+                                    .fill(Asset.Color.secondaryColor.color)
                                     .frame(width: 9, height: max(6, value(day) / maxValue * 90))
                             }
                         }
@@ -450,15 +450,6 @@ struct ProgressHomeView: View {
         }
         .padding(Layout.Spacing.m)
         .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-    }
-
-    private func barColor(for day: ProgressDay, uniform: Bool) -> Color {
-        if uniform {
-            return Asset.Color.secondaryColor.color
-        }
-        return Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate)
-            ? Asset.Color.secondaryColor.color
-            : Color(hex: "#B3AABF")
     }
 
     // MARK: - Formatters
