@@ -143,7 +143,7 @@ struct WorkoutScheduleView: View {
                         // A finished day's title dims to secondary, matching the card's own
                         // "Finished!" caption -- everything else stays primary (Figma `2016:160`:
                         // Day 1's title is #58575F, Day 2/3's is #0E1329).
-                        Text(day.title)
+                        Text(day.dayNumber > 0 ? "Day \(day.dayNumber)" : day.title)
                             .font(Typography.subtitleLarge)
                             .foregroundStyle(state == .finished
                                              ? Asset.Color.textSecondary.color
