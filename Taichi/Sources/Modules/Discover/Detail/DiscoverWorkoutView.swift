@@ -50,7 +50,7 @@ struct DiscoverWorkoutView: View {
         .onAppear(perform: viewModel.loadIfNeeded)
         .sheet(isPresented: $viewModel.showSettings) {
             WorkoutSettingsSheet(viewModel: .init())
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.large])
         }
         .popup(isPresented: $viewModel.showUnlockDialog) {
             WorkoutUnlockDialog(
