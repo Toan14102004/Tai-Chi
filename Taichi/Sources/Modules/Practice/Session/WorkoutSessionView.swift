@@ -243,11 +243,11 @@ struct WorkoutSessionView: View {
             Spacer()
 
             Text("💪")
-                .font(.system(size: 64))
+                .font(.system(size: 120))
 
             Text("You're doing great")
                 .font(Typography.headlineSmall)
-                .foregroundStyle(Self.accent)
+                .foregroundStyle(Asset.Color.secondaryColor.color)
 
             Text("Want to keep going, take a short break, or continue later?")
                 .font(Typography.bodyMedium)
