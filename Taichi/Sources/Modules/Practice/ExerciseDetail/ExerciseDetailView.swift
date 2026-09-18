@@ -25,7 +25,7 @@ struct ExerciseDetailView: View {
                            height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
                     .clipped()
 
-                HeroOverlayButton(image: Asset.Icon.Commo.xmark, action: viewModel.close)
+                HeroOverlayButton(image: Asset.Icon.Commo.xmark, iconSize: 12, action: viewModel.close)
                     .padding(Layout.Spacing.m)
                     .padding(.top, UIApplication.shared.safeAreaTop)
             }

@@ -11,6 +11,7 @@ import SwiftUI
 /// Schedule, Workout Day, and Exercise Detail screens.
 struct HeroOverlayButton: View {
     let image: ImageAsset
+    var iconSize: CGFloat = 24
     let action: () -> Void
 
     var body: some View {
@@ -18,8 +19,9 @@ struct HeroOverlayButton: View {
             image.image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 24, height: 24)
+                .frame(width: iconSize, height: iconSize)
                 .foregroundStyle(Asset.Color.white.color)
+                .frame(width: 24, height: 24)
                 .padding(4)
                 .background(.black.opacity(0.4))
                 .clipShape(Circle())
