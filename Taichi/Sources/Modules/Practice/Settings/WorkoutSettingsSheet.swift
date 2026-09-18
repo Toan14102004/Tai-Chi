@@ -295,7 +295,7 @@ struct WorkoutSettingsSheet: View {
 
     private var restTimerPanel: some View {
         VStack(spacing: Layout.Spacing.m) {
-            HStack(spacing: Layout.Spacing.s) {
+            VStack(spacing: Layout.Spacing.s) {
                 ForEach([10, 15], id: \.self) { seconds in
                     optionPill(title: "\(seconds)s", isSelected: viewModel.settings.restTimerSeconds == seconds) {
                         viewModel.settings.restTimerSeconds = seconds
