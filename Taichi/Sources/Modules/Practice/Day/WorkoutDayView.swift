@@ -73,7 +73,7 @@ struct WorkoutDayView: View {
             Text(day.dayNumber > 0 ? "Day \(day.dayNumber)" : day.title)
                 .font(Typography.headlineLarge)
                 .foregroundStyle(Asset.Color.textPrimary.color)
-            Text(day.planName)
+            Text(day.description)
                 .font(Typography.bodyMedium)
                 .foregroundStyle(Asset.Color.textSecondary.color)
         }

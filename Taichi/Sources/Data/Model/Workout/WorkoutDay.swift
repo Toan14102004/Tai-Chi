@@ -15,6 +15,8 @@ struct WorkoutDay: Identifiable, Equatable {
     let stageCode: Int?
     let planName: String
     let title: String
+
+    let description: String
     let level: String
     let isRestDay: Bool
     let isPremium: Bool

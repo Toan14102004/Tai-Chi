@@ -193,6 +193,7 @@ struct PlanDayResponseDto: Codable {
     let category: String?
     let title: String
     let imageUrl: String?
+    let description: [String]?
     let durationSeconds: Double?
     let durationMinutes: Int?
     let calories: Double?
