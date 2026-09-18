@@ -23,7 +23,7 @@ struct WorkoutScheduleView: View {
                     .frame(width: UIScreen.main.bounds.width,
                            height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
-                HeroOverlayButton(image: Asset.Icon.Commo.arrowLeft, action: viewModel.back)
+                HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
                     .padding(Layout.Spacing.m)
                     .padding(.top, UIApplication.shared.safeAreaTop)
             }

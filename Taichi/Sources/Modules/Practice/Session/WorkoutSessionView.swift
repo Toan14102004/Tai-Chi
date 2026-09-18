@@ -90,7 +90,7 @@ struct WorkoutSessionView: View {
                        height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
             HStack {
-                HeroOverlayButton(image: Asset.Icon.Commo.arrowLeft, action: viewModel.requestExit)
+                HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.requestExit)
                 Spacer()
             }
             .padding(Layout.Spacing.m)

@@ -58,7 +58,7 @@ struct DailyRoutineView: View {
                        height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
             HStack {
-                HeroOverlayButton(image: Asset.Icon.Commo.arrowLeft, action: viewModel.back)
+                HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
                 Spacer()
             }
             .padding(Layout.Spacing.m)

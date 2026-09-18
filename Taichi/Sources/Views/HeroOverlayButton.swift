@@ -17,6 +17,7 @@ struct HeroOverlayButton: View {
     var body: some View {
         Button(action: action) {
             image.image
+                .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: iconSize, height: iconSize)

@@ -76,7 +76,7 @@ struct DiscoverWorkoutView: View {
                        height: Layout.heroHeight + UIApplication.shared.safeAreaTop)
 
             HStack {
-                HeroOverlayButton(image: Asset.Icon.Commo.arrowLeft, action: viewModel.back)
+                HeroOverlayButton(image: Asset.Icon.ProfileSetup.backChevron, action: viewModel.back)
                 Spacer()
                 HeroOverlaySettingsButton(action: viewModel.openSettings)
             }
