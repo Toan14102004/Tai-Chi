@@ -29,7 +29,6 @@ struct WorkoutScheduleView: View {
                         .padding(.top, UIApplication.shared.safeAreaTop)
                 }
                 .clipped()
-                .ignoresSafeArea(edges: .top)
 
                 VStack(alignment: .leading, spacing: Layout.Spacing.l) {
                     PreloadedNativeAdsView(adKey: .practiceCompact,
@@ -51,6 +50,7 @@ struct WorkoutScheduleView: View {
                 .padding(Layout.Spacing.m)
             }
         }
+        .ignoresSafeArea(edges: .top)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Asset.Color.bgPrimary.color.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
@@ -116,7 +116,9 @@ struct WorkoutScheduleView: View {
 
             VStack(spacing: 0) {
                 ForEach(Array(phase.days.enumerated()), id: \.element.id) { position, day in
-                    dayRow(day, showsConnector: position < phase.days.count - 1)
+                    dayRow(day,
+                           showsConnector: position < phase.days.count - 1,
+                           previousDay: position > 0 ? phase.days[position - 1] : nil)
                 }
             }
         }
@@ -124,12 +126,14 @@ struct WorkoutScheduleView: View {
 
     // MARK: - Day row
 
-    private func dayRow(_ day: WorkoutDay, showsConnector: Bool) -> some View {
+    private func dayRow(_ day: WorkoutDay, showsConnector: Bool, previousDay: WorkoutDay?) -> some View {
         let state = viewModel.state(for: day)
         let fraction = viewModel.dayProgress(day)
 
         return HStack(alignment: .top, spacing: Layout.Spacing.s) {
-            timeline(state: state, showsConnector: showsConnector)
+            timeline(state: state,
+                     showsConnector: showsConnector,
+                     incomingFinished: previousDay.map { viewModel.state(for: $0) == .finished })
 
             Button {
                 viewModel.openDay(day)
@@ -169,13 +173,25 @@ struct WorkoutScheduleView: View {
             }
             .buttonStyle(.plain)
             .disabled(day.isRestDay)
+            // The gap between cards lives inside the row, not outside it, so the timeline column
+            // -- which stretches to the row's height -- carries its connector across the gap.
+            .padding(.bottom, 12)
         }
-        .padding(.bottom, 12)
     }
 
     /// The connected circles running down the left edge -- the schedule's "critical path".
-    private func timeline(state: WorkoutDayState, showsConnector: Bool) -> some View {
+    ///
+    /// `incomingFinished` is `nil` for the first day of a phase; otherwise it says whether the day
+    /// above is finished, which colours the short segment that joins its connector to this dot.
+    private func timeline(state: WorkoutDayState, showsConnector: Bool, incomingFinished: Bool?) -> some View {
         VStack(spacing: 0) {
+            if let incomingFinished {
+                connector(finished: incomingFinished)
+                    .frame(height: Layout.Spacing.m)
+            } else {
+                Color.clear.frame(height: Layout.Spacing.m)
+            }
+
             ZStack {
                 switch state {
                 case .finished:
@@ -193,19 +209,22 @@ struct WorkoutScheduleView: View {
                 }
             }
             .frame(width: 20, height: 20)
-            .padding(.top, Layout.Spacing.m)
 
             if showsConnector {
-                // Dashed, per design: mainColor once the day above is finished, matching the
-                // finished dot's colour, otherwise the same hairline grey as everywhere else.
-                DashedVerticalLine()
-                    .stroke(state == .finished ? Asset.Color.mainColor.color : Asset.Color.borderPrimary.color,
-                            style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
-                    .frame(width: 1)
+                connector(finished: state == .finished)
                     .frame(maxHeight: .infinity)
             }
         }
         .frame(width: 20)
+    }
+
+    /// Dashed, per design: mainColor once the day above is finished, matching the finished dot's
+    /// colour, otherwise the same hairline grey as everywhere else.
+    private func connector(finished: Bool) -> some View {
+        DashedVerticalLine()
+            .stroke(finished ? Asset.Color.mainColor.color : Asset.Color.borderPrimary.color,
+                    style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+            .frame(width: 1)
     }
 
     @ViewBuilder
