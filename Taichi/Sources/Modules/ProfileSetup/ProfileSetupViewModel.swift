@@ -237,6 +237,13 @@ extension ProfileSetupView {
 
             if nextStep == .generatingPlan {
                 localStorageService.profileSetupAnswers = answers
+                // The Profile tab reads `userProfile`, not the setup answers, so the name the user
+                // just gave has to be copied across or Profile keeps showing "Guest User".
+                if let displayName = answers.displayName, !displayName.isEmpty {
+                    var profile = localStorageService.userProfile
+                    profile.displayName = displayName
+                    localStorageService.userProfile = profile
+                }
                 submitProfile()
             }
         }
