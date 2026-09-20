@@ -267,13 +267,14 @@ extension WorkoutSessionView {
         }
 
         /// "Do it later" -- leaves the session for the Plan tab root; progress up to here is
-        /// already saved. Pops the whole stack rather than a single `goBack()` because the
-        /// session can be reached at different depths (Plan -> Day -> Session, or Plan ->
-        /// Schedule -> Day -> Session).
+        /// already saved. Pops back to the tab container rather than a single `goBack()` because
+        /// the session can be reached at different depths (Plan -> Day -> Session, or Plan ->
+        /// Schedule -> Day -> Session). It must not be `goBackToRoot()`: the app's stack is rooted
+        /// at `SplashView` with `.content` pushed on top, so that would land on a dead Splash.
         func doItLater() {
             stopTimer()
             musicPlayer.stop()
-            navigator.goBackToRoot()
+            _ = navigator.goBackTo(AnyHashable(RootView.Coordinator.Navigation.content))
         }
 
         /// Leaving the app pauses rather than quietly accruing time the user did not exercise.
