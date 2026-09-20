@@ -146,7 +146,11 @@ struct ProgressHomeView: View {
                 Button { viewModel.shiftWeek(by: 1) } label: {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(Asset.Color.textTertiary.color)
+                        // Dimmed only when there is no next week to go to -- it read as permanently
+                        // disabled before, because the tertiary grey was hardcoded.
+                        .foregroundStyle(viewModel.canGoToNextWeek
+                                         ? Asset.Color.textPrimary.color
+                                         : Asset.Color.textTertiary.color)
                         .frame(width: 28, height: 28)
                 }
                 .buttonStyle(.plain)
@@ -177,8 +181,7 @@ struct ProgressHomeView: View {
                     .font(Typography.labelMedium)
                     .foregroundStyle(dayNumberColor(isSelected: isSelected, hasData: hasData))
                     .frame(width: 32, height: 32)
-                    .background(hasData && !isSelected ? Asset.Color.secondaryColor.color : Asset.Color.white.color,
-                                in: Circle())
+                    .background(dayCellFillColor(isSelected: isSelected, hasData: hasData), in: Circle())
                     .overlay(
                         Circle().stroke(dayCellStrokeColor(isSelected: isSelected, hasData: hasData),
                                         lineWidth: 1)
@@ -189,21 +192,27 @@ struct ProgressHomeView: View {
         .buttonStyle(.plain)
     }
 
+    /// The selected day is a filled `mainColor` disc with a white number -- an outline alone did
+    /// not read as an active state next to the `secondaryColor` discs marking days with activity.
     private func dayNumberColor(isSelected: Bool, hasData: Bool) -> Color {
-        if isSelected {
-            return Asset.Color.secondaryColor.color
-        }
-        if hasData {
+        if isSelected || hasData {
             return Asset.Color.white.color
         }
         return Asset.Color.textSecondary.color
     }
 
-    private func dayCellStrokeColor(isSelected: Bool, hasData: Bool) -> Color {
+    private func dayCellFillColor(isSelected: Bool, hasData: Bool) -> Color {
         if isSelected {
-            return Asset.Color.secondaryColor.color
+            return Asset.Color.mainColor.color
         }
         if hasData {
+            return Asset.Color.secondaryColor.color
+        }
+        return Asset.Color.white.color
+    }
+
+    private func dayCellStrokeColor(isSelected: Bool, hasData: Bool) -> Color {
+        if isSelected || hasData {
             return .clear
         }
         return Asset.Color.borderPrimary.color
@@ -405,7 +414,9 @@ struct ProgressHomeView: View {
                 Button { viewModel.shiftWeek(by: 1) } label: {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Asset.Color.textTertiary.color)
+                        .foregroundStyle(viewModel.canGoToNextWeek
+                                         ? Asset.Color.textPrimary.color
+                                         : Asset.Color.textTertiary.color)
                         .frame(width: 24, height: 24)
                 }
                 .buttonStyle(.plain)
