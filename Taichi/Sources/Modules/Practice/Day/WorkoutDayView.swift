@@ -34,7 +34,6 @@ struct WorkoutDayView: View {
                         .padding(.top, UIApplication.shared.safeAreaTop)
                     }
                     .clipped()
-                    .ignoresSafeArea(edges: .top)
 
                     VStack(alignment: .leading, spacing: Layout.Spacing.m) {
                         PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
@@ -50,6 +49,7 @@ struct WorkoutDayView: View {
                     .padding(Layout.Spacing.m)
                 }
             }
+            .ignoresSafeArea(edges: .top)
 
             if viewModel.day != nil {
                 footer

@@ -32,7 +32,6 @@ struct ExerciseDetailView: View {
                             .padding(.top, UIApplication.shared.safeAreaTop)
                     }
                     .clipped()
-                    .ignoresSafeArea(edges: .top)
 
                     VStack(alignment: .leading, spacing: Layout.Spacing.m) {
                         PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
@@ -48,6 +47,7 @@ struct ExerciseDetailView: View {
                     .padding(Layout.Spacing.m)
                 }
             }
+            .ignoresSafeArea(edges: .top)
             .onChange(of: viewModel.draftDurationSeconds) { _ in
                 if viewModel.draftDurationSeconds != viewModel.exercise?.durationSeconds {
                     viewModel.isEditingDuration = true

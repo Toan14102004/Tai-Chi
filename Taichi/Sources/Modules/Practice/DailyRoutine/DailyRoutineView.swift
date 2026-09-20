@@ -39,6 +39,7 @@ struct DailyRoutineView: View {
                 .padding(.vertical, Layout.Spacing.m)
             }
         }
+        .ignoresSafeArea(edges: .top)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Asset.Color.bgPrimary.color.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)

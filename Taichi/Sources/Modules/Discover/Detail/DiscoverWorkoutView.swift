@@ -38,6 +38,7 @@ struct DiscoverWorkoutView: View {
                     .padding(Layout.Spacing.m)
                 }
             }
+            .ignoresSafeArea(edges: .top)
 
             if viewModel.day != nil {
                 footer
