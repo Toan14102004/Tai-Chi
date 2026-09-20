@@ -295,13 +295,10 @@ struct WorkoutSettingsSheet: View {
 
     private var restTimerPanel: some View {
         VStack(spacing: Layout.Spacing.m) {
-            VStack(spacing: Layout.Spacing.s) {
-                ForEach([10, 15], id: \.self) { seconds in
-                    optionPill(title: "\(seconds)s", isSelected: viewModel.settings.restTimerSeconds == seconds) {
-                        viewModel.settings.restTimerSeconds = seconds
-                    }
-                }
-            }
+            secondsWheel(
+                values: RestTimerDuration.intervals.map(\.rawValue),
+                selection: $viewModel.settings.restTimerSeconds
+            )
             .opacity(viewModel.settings.restTimerEnabled ? 1 : 0.4)
             .disabled(!viewModel.settings.restTimerEnabled)
 
@@ -313,13 +310,10 @@ struct WorkoutSettingsSheet: View {
 
     private var countdownPanel: some View {
         VStack(spacing: Layout.Spacing.m) {
-            VStack(spacing: Layout.Spacing.s) {
-                ForEach([5, 10, 15], id: \.self) { seconds in
-                    optionPill(title: "\(seconds)s", isSelected: viewModel.settings.preWorkoutCountdownSeconds == seconds) {
-                        viewModel.settings.preWorkoutCountdownSeconds = seconds
-                    }
-                }
-            }
+            secondsWheel(
+                values: WorkoutCountdown.allCases.map(\.rawValue),
+                selection: $viewModel.settings.preWorkoutCountdownSeconds
+            )
 
             primaryButton("Done", action: viewModel.confirmCountdown)
         }
@@ -327,19 +321,17 @@ struct WorkoutSettingsSheet: View {
 
     // MARK: - Shared pieces
 
-    /// Selection here reads as a tint change on a light card, not an inverted filled button --
-    /// matching Figma's rest-timer and countdown pills (`2052:2155`, `2052:2659`).
-    private func optionPill(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(Typography.headlineSmall)
-                .foregroundStyle(isSelected ? Asset.Color.mainColor.color : Asset.Color.textTertiary.color)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(isSelected ? Color(hex: "#F2F2F2") : Color.clear)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+    /// Three rows at a time, the centre one selected, matching the reminder time picker's wheel.
+    /// Rest timer and countdown share it so their choices are picked the same way on both screens.
+    private func secondsWheel(values: [Int], selection: Binding<Int>) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Asset.Color.rowSelected.color)
+                .frame(height: NumberWheel.rowHeight)
+
+            NumberWheel(values: values, selection: selection, format: { "\($0)s" }, visibleRows: 3)
         }
-        .buttonStyle(.plain)
+        .frame(height: NumberWheel.rowHeight * 3)
     }
 
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {

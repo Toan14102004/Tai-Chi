@@ -238,30 +238,29 @@ struct WorkoutSettingsView: View {
         .buttonStyle(.plain)
     }
 
-    /// The design has no frame for picking these values, so this is a plain list sheet.
+    /// The design has no frame for picking these values, so this reuses the wheel of the in-session
+    /// Workout Settings sheet -- both screens pick a duration the same way. Rest timer keeps its
+    /// "Off" stop here (0) because this screen has no separate toggle for it.
     @ViewBuilder
     private func durationPicker(for field: ViewModel.DurationField) -> some View {
-        NavigationView {
-            List {
-                switch field {
-                case .restTimer:
-                    ForEach(RestTimerDuration.allCases) { option in
-                        durationOption(option.title, isOn: viewModel.restTimerOption == option) {
-                            viewModel.selectRestTimer(option)
-                        }
-                    }
-                case .countdown:
-                    ForEach(WorkoutCountdown.allCases) { option in
-                        durationOption(option.title, isOn: viewModel.countdownOption == option) {
-                            viewModel.selectCountdown(option)
-                        }
-                    }
-                }
-            }
-            .navigationTitle(field.title)
-            .navigationBarTitleDisplayMode(.inline)
+        switch field {
+        case .restTimer:
+            DurationWheelSheet(
+                title: field.title,
+                values: RestTimerDuration.allCases.map(\.rawValue),
+                initial: viewModel.restTimerOption.rawValue,
+                format: { $0 == 0 ? "Off" : "\($0)s" },
+                onDone: { viewModel.selectRestTimer(RestTimerDuration(rawValue: $0) ?? .off) }
+            )
+        case .countdown:
+            DurationWheelSheet(
+                title: field.title,
+                values: WorkoutCountdown.allCases.map(\.rawValue),
+                initial: viewModel.countdownOption.rawValue,
+                format: { "\($0)s" },
+                onDone: { viewModel.selectCountdown(WorkoutCountdown(rawValue: $0) ?? .ten) }
+            )
         }
-        .colorScheme(.light)
     }
 
     private var songPicker: some View {
@@ -302,19 +301,59 @@ struct WorkoutSettingsView: View {
         }
         .colorScheme(.light)
     }
+}
 
-    private func durationOption(_ title: String, isOn: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack {
-                Text(title).foregroundStyle(Asset.Color.textPrimary.color)
-                Spacer()
-                if isOn {
-                    Asset.Icon.Profile.tickCircle.image
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
+/// Three-row wheel with a Done button. Holds the pending choice locally so scrolling does not write
+/// to the shared settings (and dismiss the sheet) until the user confirms.
+private struct DurationWheelSheet: View {
+    let title: String
+    let values: [Int]
+    let initial: Int
+    let format: (Int) -> String
+    let onDone: (Int) -> Void
+
+    @State private var selection: Int
+
+    init(title: String, values: [Int], initial: Int, format: @escaping (Int) -> String, onDone: @escaping (Int) -> Void) {
+        self.title = title
+        self.values = values
+        self.initial = initial
+        self.format = format
+        self.onDone = onDone
+        _selection = State(initialValue: initial)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 32) {
+            Text(title.localizedKey)
+                .font(Typography.subtitleLarge)
+                .foregroundStyle(Asset.Color.textPrimary.color)
+
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Asset.Color.rowSelected.color)
+                    .frame(height: NumberWheel.rowHeight)
+
+                NumberWheel(values: values, selection: $selection, format: format, visibleRows: 3)
             }
+            .frame(height: NumberWheel.rowHeight * 3)
+
+            Button { onDone(selection) } label: {
+                Text("Done")
+                    .font(Typography.bodyLarge)
+                    .foregroundStyle(Asset.Color.white.color)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 46)
+                    .background(Asset.Color.mainColor.color)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            }
+
+            Spacer(minLength: 0)
         }
+        .padding(.horizontal, Layout.Spacing.m)
+        .padding(.vertical, 32)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(Asset.Color.white.color.ignoresSafeArea())
     }
 }
 

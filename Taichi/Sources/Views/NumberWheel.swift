@@ -17,6 +17,11 @@ import UIKit
 struct NumberWheel: UIViewRepresentable {
     let values: [Int]
     @Binding var selection: Int
+    /// How each value is drawn. Defaults to the zero-padded two digits the time picker wants.
+    var format: (Int) -> String = { String(format: "%02d", $0) }
+    /// Rows shown at once, centre row selected. The reminder picker shows five; option lists
+    /// such as the rest timer show three.
+    var visibleRows: CGFloat = 5
 
     static let rowHeight: CGFloat = 44
 
@@ -51,7 +56,7 @@ struct NumberWheel: UIViewRepresentable {
     /// `UIPickerView` has no useful intrinsic width, so without this it falls back to UIKit's
     /// default (~320pt) and two columns side by side overflow the sheet's width entirely.
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIPickerView, context: Context) -> CGSize? {
-        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: Self.rowHeight * 5)
+        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: Self.rowHeight * visibleRows)
     }
 
     final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -77,7 +82,7 @@ struct NumberWheel: UIViewRepresentable {
             let label = (view as? UILabel) ?? UILabel()
             label.textAlignment = .center
             label.backgroundColor = .clear
-            label.text = String(format: "%02d", parent.values[row])
+            label.text = parent.format(parent.values[row])
             label.font = UIFont(
                 name: isSelected ? FontFamily.Inter.bold.name : FontFamily.Inter.medium.name,
                 size: 22

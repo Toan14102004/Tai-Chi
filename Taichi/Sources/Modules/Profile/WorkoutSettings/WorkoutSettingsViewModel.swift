@@ -13,6 +13,9 @@ import SwiftUI
 /// plain `restTimerEnabled`/`restTimerSeconds` pair, which is what this screen reads and writes.
 enum RestTimerDuration: Int, CaseIterable, Identifiable {
     case off = 0
+    case ten = 10
+    case fifteen = 15
+    case twenty = 20
     case thirty = 30
     case forty5 = 45
     case sixty = 60
@@ -23,6 +26,11 @@ enum RestTimerDuration: Int, CaseIterable, Identifiable {
     var title: String {
         self == .off ? "Off" : "\(rawValue)s"
     }
+
+    /// The real intervals, without `off` -- what the in-session Workout Settings sheet lists,
+    /// since it carries "off" as a separate toggle. Both screens read from this enum so their
+    /// choices cannot drift apart.
+    static var intervals: [RestTimerDuration] { allCases.filter { $0 != .off } }
 }
 
 /// "Countdown before workout" row option. Always a real duration -- there is no "off" state in
