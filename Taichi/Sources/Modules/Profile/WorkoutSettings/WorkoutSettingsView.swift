@@ -55,7 +55,10 @@ private struct MusicPlayerSection: View {
 
             HStack(spacing: Layout.Spacing.s + Layout.Spacing.xs) {
                 Button(action: viewModel.previousTrack) {
-                    controlButton(Asset.Icon.ProfileSetup.backChevron.image, size: 16)
+                    // Mirrored `chevronRight` rather than `backChevron`: the two came from
+                    // different icon sets and did not match as a Prev/Next pair.
+                    controlButton(Asset.Icon.Profile.chevronRight.image, size: 16)
+                        .scaleEffect(x: -1, y: 1)
                 }
 
                 Button(action: viewModel.togglePlayback) {
