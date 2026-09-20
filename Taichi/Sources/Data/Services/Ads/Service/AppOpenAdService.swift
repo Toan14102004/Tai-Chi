@@ -40,6 +40,7 @@ final class AppOpenAdService: NSObject, AdService {
     @MainActor
     func load(adPlacement: AdPlacementRepresentable, adPlacementHigh: AdPlacementRepresentable?) {
         let primary = (adPlacementHigh?.isEnabled == true) ? adPlacementHigh! : adPlacement
+        guard AppFlags.adsEnabled else { return }
         print("[AppOpenAd] Load requested for \(primary.id)")
         
         guard appOpenAd == nil else {

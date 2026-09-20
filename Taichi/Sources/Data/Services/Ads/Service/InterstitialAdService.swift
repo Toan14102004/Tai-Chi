@@ -151,6 +151,7 @@ final class InterstitialAdService: NSObject, AdService {
     // MARK: - Splash Interstitial (bypasses gating)
     @MainActor
     func showSplashInterstitial(adPlacement: AdPlacementRepresentable, adPlacementHigh: AdPlacementRepresentable?) {
+        guard AppFlags.adsEnabled else { onDismissed?(); return }
         guard localStorageService.isDisplayPremiumAfterSplash else { onDismissed?(); return }
         guard !subscriptionManager.hidesAds else { onDismissed?(); return }
 

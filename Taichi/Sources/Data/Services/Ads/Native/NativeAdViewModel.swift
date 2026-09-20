@@ -68,6 +68,7 @@ public class NativeAdViewModel: NSObject, ObservableObject, NativeAdLoaderDelega
     }
 
     public func refreshAd() {
+        guard AppFlags.adsEnabled else { return }
         // Check if any placement is enabled
         guard primaryAdEnabled || fallbackAdEnabled else {
             print("[NativeAd] [\(primaryAdUnitID)] Refresh canceled: No active placements")

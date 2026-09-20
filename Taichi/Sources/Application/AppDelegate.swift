@@ -151,6 +151,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func adsMobileAdsConfig() {
+        guard AppFlags.adsEnabled else { return }
         MobileAds.shared.start { status in
             let adapterStatuses = status.adapterStatusesByClassName
             for (adapter, status) in adapterStatuses {

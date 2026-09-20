@@ -137,7 +137,7 @@ case practiceCompact
         }
         
         // Only load if not already loaded and not currently loading
-        if viewModel.nativeAd == nil && !viewModel.isLoading {
+        if AppFlags.adsEnabled && viewModel.nativeAd == nil && !viewModel.isLoading {
             print("[AdsPreloadService] Loading ad for key: \(key)")
             viewModel.refreshAd()
         }
@@ -145,7 +145,7 @@ case practiceCompact
     
     /// Preload ad immediately (legacy method for backward compatibility)
     func preloadAd(key: AdsPreloadKey, placement: AdPlacement, placementHigh: AdPlacement? = nil) {
-        if placement.isEnabled {
+        if AppFlags.adsEnabled, placement.isEnabled {
             let viewModel = NativeAdViewModel(
                 adPlacement: placement,
                 adPlacementHight: placementHigh,
@@ -157,6 +157,7 @@ case practiceCompact
     }
     
     func refreshAd(for key: AdsPreloadKey) {
+        guard AppFlags.adsEnabled else { return }
         preloadedAds[key]?.refreshAd()
     }
 }
