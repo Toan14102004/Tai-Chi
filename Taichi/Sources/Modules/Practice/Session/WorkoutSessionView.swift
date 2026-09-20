@@ -111,7 +111,7 @@ struct WorkoutSessionView: View {
 
     private var getReadyBody: some View {
         VStack(spacing: Layout.Spacing.s) {
-            Text("\(viewModel.remainingSeconds)")
+            Text(viewModel.timerLabel)
                 .font(.system(size: 40, weight: .medium, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(Asset.Color.mainColor.color)
@@ -265,10 +265,12 @@ struct WorkoutSessionView: View {
                 .padding(.vertical, Layout.Spacing.m)
                 .overlay(Capsule().stroke(Asset.Color.mainColor.color, lineWidth: 1.5))
 
-            Button("Do it later", action: viewModel.doItLater)
-                .font(Typography.labelMedium)
-                .foregroundStyle(Asset.Color.textSecondary.color)
-                .underline()
+            Button(action: viewModel.doItLater) {
+                Text("Do it later")
+                    .font(Typography.labelMedium)
+                    .foregroundStyle(Asset.Color.textSecondary.color)
+                    .underline()
+            }
 
             Spacer()
 
