@@ -22,11 +22,16 @@ struct NumberWheel: UIViewRepresentable {
     /// Rows shown at once, centre row selected. The reminder picker shows five; option lists
     /// such as the rest timer show three.
     var visibleRows: CGFloat = 5
+    /// Height of one row. The reminder picker and the in-session sheet use the default; the
+    /// Profile duration sheets are drawn with taller 52pt rows.
+    var rowHeight: CGFloat = NumberWheel.rowHeight
+    /// Whether rows off the centre are bold too (the duration sheets draw every row Inter 700).
+    var boldIdleRows = false
 
     static let rowHeight: CGFloat = 44
 
     func makeUIView(context: Context) -> UIPickerView {
-        let picker = UIPickerView()
+        let picker = ClearSelectionPickerView()
         picker.dataSource = context.coordinator
         picker.delegate = context.coordinator
         picker.backgroundColor = .clear
@@ -56,7 +61,22 @@ struct NumberWheel: UIViewRepresentable {
     /// `UIPickerView` has no useful intrinsic width, so without this it falls back to UIKit's
     /// default (~320pt) and two columns side by side overflow the sheet's width entirely.
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIPickerView, context: Context) -> CGSize? {
-        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: Self.rowHeight * visibleRows)
+        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: rowHeight * visibleRows)
+    }
+
+    /// `UIPickerView` draws its own translucent, inset selection bar. The callers draw the centre
+    /// highlight themselves (one rounded `rowSelected` row), so the system bar stacked on top of it
+    /// as a second, slightly different band. Clearing it leaves only the caller's row.
+    private final class ClearSelectionPickerView: UIPickerView {
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            // The selection bar is the picker's second subview (iOS 14+); matching on the class
+            // name as well keeps this working if that order ever changes.
+            for (index, subview) in subviews.enumerated()
+            where index == 1 || String(describing: type(of: subview)).contains("Selection") {
+                subview.backgroundColor = .clear
+            }
+        }
     }
 
     final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -73,7 +93,7 @@ struct NumberWheel: UIViewRepresentable {
         }
 
         func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-            NumberWheel.rowHeight
+            parent.rowHeight
         }
 
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -84,7 +104,7 @@ struct NumberWheel: UIViewRepresentable {
             label.backgroundColor = .clear
             label.text = parent.format(parent.values[row])
             label.font = UIFont(
-                name: isSelected ? FontFamily.Inter.bold.name : FontFamily.Inter.medium.name,
+                name: isSelected || parent.boldIdleRows ? FontFamily.Inter.bold.name : FontFamily.Inter.medium.name,
                 size: 22
             )
             label.textColor = isSelected
