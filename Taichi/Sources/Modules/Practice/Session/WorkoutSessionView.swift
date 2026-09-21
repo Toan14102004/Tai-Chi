@@ -255,7 +255,7 @@ struct WorkoutSessionView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Layout.Spacing.m)
                 .background(Asset.Color.mainColor.color)
-                .clipShape(Capsule())
+                .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.large))
                 .padding(.top, Layout.Spacing.s)
 
             Button("Restart this exercise", action: viewModel.restartCurrentExercise)
@@ -263,7 +263,7 @@ struct WorkoutSessionView: View {
                 .foregroundStyle(Asset.Color.mainColor.color)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Layout.Spacing.m)
-                .overlay(Capsule().stroke(Asset.Color.mainColor.color, lineWidth: 1.5))
+                .overlay(RoundedRectangle(cornerRadius: Layout.CornerRadius.large).stroke(Asset.Color.mainColor.color, lineWidth: 1.5))
 
             Button(action: viewModel.doItLater) {
                 Text("Do it later")
@@ -307,7 +307,7 @@ struct WorkoutSessionView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Layout.Spacing.m)
                 .background(Asset.Color.mainColor.color)
-                .clipShape(Capsule())
+                .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.large))
                 .padding(.top, Layout.Spacing.s)
 
             Spacer()
