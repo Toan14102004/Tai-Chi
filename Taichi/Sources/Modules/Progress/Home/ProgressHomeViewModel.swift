@@ -43,12 +43,16 @@ extension ProgressHomeView {
 
         var isToday: Bool { Calendar.current.isDateInToday(selectedDate) }
 
-        /// Whether the week following `selectedDate` would run past today -- disables the
-        /// day picker's and both weekly charts' forward chevron rather than letting the user
-        /// navigate into a week with nothing to show.
+        /// Whether the calendar week (Mon-Sun, as the day picker lays it out) after `selectedDate`
+        /// has already started -- disables the day picker's and both weekly charts' forward chevron
+        /// rather than letting the user navigate into a week with nothing to show. Comparing the
+        /// week boundary, not `selectedDate + 7 days`, keeps Sun the 20th able to reach the week
+        /// that today (Mon the 21st) belongs to.
         var canGoToNextWeek: Bool {
-            guard let next = Calendar.current.date(byAdding: .day, value: 7, to: selectedDate) else { return false }
-            return next <= Date()
+            var calendar = Calendar.current
+            calendar.firstWeekday = 2 // Monday
+            guard let thisWeek = calendar.dateInterval(of: .weekOfYear, for: selectedDate) else { return false }
+            return thisWeek.end <= Date()
         }
 
         /// Whether `date` has a logged total, for the day picker's filled-circle state --
@@ -139,11 +143,13 @@ extension ProgressHomeView {
         }
 
         /// Moves the day picker and both weekly charts a week at a time -- `weeks` is `-1` or
-        /// `1`, keeping the same weekday so the picker's selection stays meaningful.
+        /// `1`, keeping the same weekday where possible so the picker's selection stays meaningful.
         func shiftWeek(by weeks: Int) {
             guard weeks < 0 || canGoToNextWeek else { return }
-            guard let newDate = Calendar.current.date(byAdding: .day, value: weeks * 7, to: selectedDate) else { return }
-            selectedDate = newDate
+            guard let shifted = Calendar.current.date(byAdding: .day, value: weeks * 7, to: selectedDate) else { return }
+            // Same weekday next week can still lie in the future (Sun 20th -> Sun 27th while today is
+            // Mon 21st), so land on today instead.
+            selectedDate = weeks > 0 ? min(shifted, Date()) : shifted
             load()
         }
 
