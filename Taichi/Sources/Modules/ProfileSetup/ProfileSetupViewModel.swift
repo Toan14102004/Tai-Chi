@@ -33,6 +33,15 @@ extension ProfileSetupView {
 
         // Ranges from `GET /v1/users/onboarding/options`; the server rejects anything outside them.
         private static let heightRangeCm = 80...250
+        /// The whole-inch heights that fall inside `heightRangeCm` (32-98 in, i.e. 2 ft 8 in - 8 ft
+        /// 2 in). Rounded inward so every accepted ft & in value converts to a cm value that is
+        /// itself in range -- rounding to nearest accepted 2 ft 7 in (79 cm) while rejecting it.
+        private static let heightRangeInches =
+            Int((Double(heightRangeCm.lowerBound) / 2.54).rounded(.up))...Int((Double(heightRangeCm.upperBound) / 2.54).rounded(.down))
+
+        /// Digits each height field accepts. Enough for the range above (250 cm, 8 ft, 98 in) and
+        /// small enough that no combination can overflow the arithmetic below.
+        static let maxHeightDigits = (cm: 3, feet: 1, inches: 2)
         private static let weightRangeKg = 20.0...500.0
         private static let ageRange = 13...100
         static let nameMaxLength = 100
@@ -118,11 +127,20 @@ extension ProfileSetupView {
             let cm: Int?
             switch oldUnit {
             case .centimeters:
-                cm = Int(heightText)
+                cm = heightText.isEmpty ? nil : Self.digits(heightText, cap: 999)
             case .feetInches:
                 cm = heightCm(feet: heightFeetText, inches: heightInchesText)
             }
-            guard let cm else { return }
+            // Only a height inside the valid range is carried over; an out-of-range one would
+            // convert to something that does not fit the other unit's fields (e.g. 999 cm is 32 ft),
+            // so the new unit starts empty instead.
+            guard let cm, Self.heightRangeCm.contains(cm) else {
+                heightText = ""
+                heightFeetText = ""
+                heightInchesText = ""
+                heightErrorText = nil
+                return
+            }
             switch answers.heightUnit {
             case .centimeters:
                 heightText = "\(cm)"
@@ -134,12 +152,37 @@ extension ProfileSetupView {
             validateHeight()
         }
 
+        /// Trims the active unit's fields to `maxHeightDigits` -- a pasted or over-long entry would
+        /// otherwise reach the cm/inch arithmetic below unbounded. Call before `validateHeight()`.
+        func limitHeightInput() {
+            heightText = String(heightText.prefix(Self.maxHeightDigits.cm))
+            heightFeetText = String(heightFeetText.prefix(Self.maxHeightDigits.feet))
+            heightInchesText = String(heightInchesText.prefix(Self.maxHeightDigits.inches))
+        }
+
         func validateHeight() {
-            guard let cm = currentHeightCm() else {
-                heightErrorText = nil
-                return
+            switch answers.heightUnit {
+            case .centimeters:
+                guard !heightText.isEmpty else {
+                    heightErrorText = nil
+                    return
+                }
+                heightErrorText = Self.heightRangeCm.contains(Self.digits(heightText, cap: 999)) ? nil : heightRangeErrorMessage()
+            case .feetInches:
+                guard let totalInches = totalInches(feet: heightFeetText, inches: heightInchesText) else {
+                    heightErrorText = nil
+                    return
+                }
+                heightErrorText = Self.heightRangeInches.contains(totalInches) ? nil : heightRangeErrorMessage()
             }
-            heightErrorText = Self.heightRangeCm.contains(cm) ? nil : heightRangeErrorMessage()
+        }
+
+        /// A digit string as an `Int`, capped: an entry too long to fit an `Int` (or above `cap`)
+        /// reads as `cap`, which is out of range and so reported by validation instead of
+        /// overflowing the arithmetic downstream.
+        private static func digits(_ text: String, cap: Int) -> Int {
+            guard let value = Int(text) else { return text.isEmpty ? 0 : cap }
+            return min(value, cap)
         }
 
         /// The height currently entered, in cm, regardless of which unit is displayed.
@@ -147,16 +190,20 @@ extension ProfileSetupView {
             switch answers.heightUnit {
             case .centimeters:
                 guard !heightText.isEmpty else { return nil }
-                return Int(heightText)
+                return Self.digits(heightText, cap: 999)
             case .feetInches:
                 return heightCm(feet: heightFeetText, inches: heightInchesText)
             }
         }
 
-        private func heightCm(feet: String, inches: String) -> Int? {
+        private func totalInches(feet: String, inches: String) -> Int? {
             guard !feet.isEmpty || !inches.isEmpty else { return nil }
-            let totalInches = (Int(feet) ?? 0) * 12 + (Int(inches) ?? 0)
-            return Int((Double(totalInches) * 2.54).rounded())
+            // Capped well past any valid height so the arithmetic below cannot overflow.
+            return Self.digits(feet, cap: 99) * 12 + Self.digits(inches, cap: 999)
+        }
+
+        private func heightCm(feet: String, inches: String) -> Int? {
+            totalInches(feet: feet, inches: inches).map { Int((Double($0) * 2.54).rounded()) }
         }
 
         /// The `heightRangeCm` bounds converted to whole feet/inches, for display purposes only --
@@ -166,8 +213,8 @@ extension ProfileSetupView {
             case .centimeters:
                 return "Height must be \(Self.heightRangeCm.lowerBound)-\(Self.heightRangeCm.upperBound) cm"
             case .feetInches:
-                let minInches = Int((Double(Self.heightRangeCm.lowerBound) / 2.54).rounded())
-                let maxInches = Int((Double(Self.heightRangeCm.upperBound) / 2.54).rounded())
+                let minInches = Self.heightRangeInches.lowerBound
+                let maxInches = Self.heightRangeInches.upperBound
                 return "Height must be \(minInches / 12) ft \(minInches % 12) in - \(maxInches / 12) ft \(maxInches % 12) in"
             }
         }

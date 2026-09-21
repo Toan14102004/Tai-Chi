@@ -19,6 +19,7 @@ struct HeightStepView: View {
                     unitToggle
                 }
                 .onChange(of: viewModel.heightText) { _ in
+                    viewModel.limitHeightInput()
                     viewModel.validateHeight()
                 }
             case .feetInches:
@@ -79,6 +80,7 @@ struct HeightStepView: View {
                     .onChange(of: text.wrappedValue) { newValue in
                         let filtered = newValue.filter(\.isNumber)
                         if filtered != newValue { text.wrappedValue = filtered }
+                        viewModel.limitHeightInput()
                         viewModel.validateHeight()
                     }
             }
