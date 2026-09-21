@@ -14,7 +14,7 @@ final class WorkoutService {
 
     // MARK: - Home (Plan tab)
 
-    /// The signed-up plan, the daily routines shelf, and a "Picks for today" list -- everything
+    /// The user's plans, the daily routines shelf, and a "Picks for today" list -- everything
     /// the Plan tab's main screen shows in one call.
     func home(limit: Int = 5) -> AnyPublisher<HomeContent, NetworkError> {
         networkService
@@ -150,7 +150,7 @@ private extension WorkoutService {
 
     static func homeContent(from dto: HomeResponseDto) -> HomeContent {
         HomeContent(
-            currentPlan: dto.currentPlan.map(mapCurrentPlan),
+            yourPlans: (dto.yourPlans ?? []).map(mapCurrentPlan),
             dailyRoutines: (dto.dailyRoutines ?? []).map(mapRoutineSummary),
             justForYou: (dto.justForYou ?? []).map(mapJustForYou)
         )
@@ -356,15 +356,16 @@ private extension WorkoutService {
 // MARK: - Home domain
 
 struct HomeContent {
-    let currentPlan: HomePlanSummary?
+    let yourPlans: [HomePlanSummary]
     let dailyRoutines: [DailyRoutineSummary]
     let justForYou: [WorkoutDay]
 
-    static let empty = HomeContent(currentPlan: nil, dailyRoutines: [], justForYou: [])
+    static let empty = HomeContent(yourPlans: [], dailyRoutines: [], justForYou: [])
 }
 
-struct HomePlanSummary {
+struct HomePlanSummary: Identifiable {
     let planId: String
+    var id: String { planId }
     let title: String
     /// `not_started` / `in_progress` / `completed`.
     let status: String

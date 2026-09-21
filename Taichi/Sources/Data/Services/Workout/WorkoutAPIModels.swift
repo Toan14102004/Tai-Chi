@@ -28,7 +28,9 @@ struct EmptyDTO: Codable {}
 // MARK: - GET /v1/plans/home
 
 struct HomeResponseDto: Codable {
-    let currentPlan: CurrentPlanDTO?
+    /// Exactly three personalized plans. Replaced the single `currentPlan` this endpoint used to
+    /// return -- reading that field now always yields nothing, which hid the "Your Plan" section.
+    let yourPlans: [CurrentPlanDTO]?
     let dailyRoutines: [DailyRoutineSummaryDTO]?
     let justForYou: [JustForYouItemDTO]?
 }

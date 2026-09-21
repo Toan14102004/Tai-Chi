@@ -14,7 +14,7 @@ extension PracticeHomeView {
         @Injected var workoutService: WorkoutService
 
         @Published var coordinator = Coordinator()
-        @Published var currentPlan: HomePlanSummary?
+        @Published var yourPlans: [HomePlanSummary] = []
         @Published var dailyRoutines: [DailyRoutineSummary] = []
         @Published var justForYou: [WorkoutDay] = []
         @Published var isLoading = false
@@ -45,7 +45,7 @@ extension PracticeHomeView {
                 } receiveValue: { [weak self] home in
                     guard let self else { return }
                     didLoad = true
-                    currentPlan = home.currentPlan
+                    yourPlans = home.yourPlans
                     dailyRoutines = home.dailyRoutines
                     justForYou = home.justForYou
                 }

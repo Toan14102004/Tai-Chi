@@ -42,21 +42,23 @@ struct PracticeHomeView: View {
 
     @ViewBuilder
     private var yourPlanSection: some View {
-        if let plan = viewModel.currentPlan {
+        if !viewModel.yourPlans.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 SectionHeaderRow(title: "Your Plan")
                     .padding(.horizontal, Layout.Spacing.m)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: PlanHeroCard.cardSpacing) {
-                        PlanHeroCard(
-                            imageUrl: plan.currentDay?.imageUrl,
-                            title: plan.title,
-                            durationText: plan.durationText,
-                            exercisesText: plan.exercisesText,
-                            buttonTitle: plan.buttonTitle,
-                            action: { viewModel.openPlan(plan) }
-                        )
+                        ForEach(viewModel.yourPlans) { plan in
+                            PlanHeroCard(
+                                imageUrl: plan.currentDay?.imageUrl,
+                                title: plan.title,
+                                durationText: plan.durationText,
+                                exercisesText: plan.exercisesText,
+                                buttonTitle: plan.buttonTitle,
+                                action: { viewModel.openPlan(plan) }
+                            )
+                        }
                     }
                     .padding(.horizontal, Layout.Spacing.m)
                 }
