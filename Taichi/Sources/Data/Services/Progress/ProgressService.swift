@@ -165,6 +165,19 @@ final class ProgressService {
 
     private static let isoFormatter = ISO8601DateFormatter()
 
+    /// The server's `date-time` strings carry milliseconds (`...T01:54:12.345Z`), which the default
+    /// `ISO8601DateFormatter` rejects -- hence the second formatter as a fallback.
+    private static let isoFractionalFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+
+    private static func parseISODate(_ string: String?) -> Date? {
+        guard let string else { return nil }
+        return isoFormatter.date(from: string) ?? isoFractionalFormatter.date(from: string)
+    }
+
     private static var timezoneOffsetMinutes: Int { TimeZone.current.secondsFromGMT() / 60 }
 
     private static func eachDay(from: Date, to: Date) -> [Date] {
@@ -189,7 +202,8 @@ final class ProgressService {
     /// tapping this card can push straight into `workoutDay(workoutId:)`.
     private static func mapParticipated(_ dto: ProgressRangeActivityDTO) -> ParticipatedWorkout {
         let isCompleted = dto.status == "completed"
-        let date = (dto.startedAt).flatMap(isoFormatter.date)
+        // `startedAt` is nullable; a finished attempt still has `completedAt` to show a time from.
+        let date = parseISODate(dto.startedAt) ?? parseISODate(dto.completedAt)
 
         return ParticipatedWorkout(
             id: "\(dto.planId ?? "")#\(dto.dayId ?? "")",

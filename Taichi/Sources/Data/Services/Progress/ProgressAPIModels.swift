@@ -71,6 +71,7 @@ struct ProgressRangeActivityDTO: Codable {
     let calories: Double?
     let activityDate: String?
     let startedAt: String?
+    let completedAt: String?
 }
 
 // MARK: - Activities (legacy -- endpoints below now 404, see header comment)
