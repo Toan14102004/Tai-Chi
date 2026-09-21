@@ -175,7 +175,9 @@ struct ProgressHomeView: View {
             VStack(spacing: Layout.Spacing.xs) {
                 Text(Self.weekdayFormatter.string(from: day))
                     .font(Typography.captionSmall)
-                    .foregroundStyle(Asset.Color.textSecondary.color)
+                    .foregroundStyle(isSelected
+                                     ? Asset.Color.secondaryColor.color
+                                     : Asset.Color.textSecondary.color)
 
                 Text(Self.dayNumberFormatter.string(from: day))
                     .font(Typography.labelMedium)
@@ -192,30 +194,22 @@ struct ProgressHomeView: View {
         .buttonStyle(.plain)
     }
 
-    /// The selected day is a filled `mainColor` disc with a white number -- an outline alone did
-    /// not read as an active state next to the `secondaryColor` discs marking days with activity.
+    /// Days with activity are filled `secondaryColor` discs with a white number; the selected day
+    /// is a `secondaryColor` outline and weekday label (a selected day that also has activity
+    /// keeps the fill), as in the design.
     private func dayNumberColor(isSelected: Bool, hasData: Bool) -> Color {
-        if isSelected || hasData {
-            return Asset.Color.white.color
-        }
-        return Asset.Color.textSecondary.color
+        hasData ? Asset.Color.white.color : Asset.Color.textSecondary.color
     }
 
     private func dayCellFillColor(isSelected: Bool, hasData: Bool) -> Color {
-        if isSelected {
-            return Asset.Color.mainColor.color
-        }
-        if hasData {
-            return Asset.Color.secondaryColor.color
-        }
-        return Asset.Color.white.color
+        hasData ? Asset.Color.secondaryColor.color : Asset.Color.white.color
     }
 
     private func dayCellStrokeColor(isSelected: Bool, hasData: Bool) -> Color {
-        if isSelected || hasData {
+        if hasData {
             return .clear
         }
-        return Asset.Color.borderPrimary.color
+        return isSelected ? Asset.Color.secondaryColor.color : Asset.Color.borderPrimary.color
     }
 
     private func weekDates(containing date: Date) -> [Date] {
