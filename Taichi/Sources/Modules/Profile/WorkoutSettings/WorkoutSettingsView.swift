@@ -57,7 +57,7 @@ private struct MusicPlayerSection: View {
                 Button(action: viewModel.previousTrack) {
                     // Mirrored `chevronRight` rather than `backChevron`: the two came from
                     // different icon sets and did not match as a Prev/Next pair.
-                    controlButton(Asset.Icon.Profile.chevronRight.image, size: 16)
+                    controlButton(Asset.Icon.Profile.chevronRight.image, size: 20)
                         .scaleEffect(x: -1, y: 1)
                 }
 
@@ -72,7 +72,7 @@ private struct MusicPlayerSection: View {
                 }
 
                 Button(action: viewModel.nextTrack) {
-                    controlButton(Asset.Icon.Profile.chevronRight.image, size: 16)
+                    controlButton(Asset.Icon.Profile.chevronRight.image, size: 20)
                 }
             }
         }
@@ -109,7 +109,6 @@ private struct MusicPlayerSection: View {
         image
             .resizable()
             .frame(width: size, height: size)
-            .padding(Layout.Spacing.xs)
             .frame(width: 26, height: 26)
             .background(Asset.Color.white.color)
             .clipShape(Circle())
