@@ -157,7 +157,6 @@ struct WorkoutSettingsView: View {
         .onAppear(perform: viewModel.load)
         .sheet(item: $viewModel.editingDuration) { field in
             durationPicker(for: field)
-                .presentationDetents([.medium])
         }
         .sheet(isPresented: $viewModel.isPickingSong) {
             songPicker
@@ -240,27 +239,35 @@ struct WorkoutSettingsView: View {
         .buttonStyle(.plain)
     }
 
-    /// The design has no frame for picking these values, so this reuses the wheel of the in-session
-    /// Workout Settings sheet -- both screens pick a duration the same way. Rest timer keeps its
-    /// "Off" stop here (0) because this screen has no separate toggle for it.
+    /// Bottom sheets from Figma "Workout Settings -- Rest Timer On/Off" and "Pre-Workout
+    /// Countdown". Rest timer carries its on/off switch in the header (as in the design) rather
+    /// than an "Off" stop in the wheel, and its wheel lists the same intervals as the in-session
+    /// sheet.
     @ViewBuilder
     private func durationPicker(for field: ViewModel.DurationField) -> some View {
         switch field {
         case .restTimer:
+            let intervals = RestTimerDuration.intervals.map(\.rawValue)
             DurationWheelSheet(
                 title: field.title,
-                values: RestTimerDuration.allCases.map(\.rawValue),
-                initial: viewModel.restTimerOption.rawValue,
-                format: { $0 == 0 ? "Off" : "\($0)s" },
-                onDone: { viewModel.selectRestTimer(RestTimerDuration(rawValue: $0) ?? .off) }
+                subtitle: "Set the reset time between exercise",
+                values: intervals,
+                initial: intervals.contains(viewModel.settings.restTimerSeconds)
+                    ? viewModel.settings.restTimerSeconds
+                    : RestTimerDuration.ten.rawValue,
+                hasSwitch: true,
+                initiallyEnabled: viewModel.settings.restTimerEnabled,
+                onDone: { isEnabled, seconds in viewModel.selectRestTimer(isEnabled: isEnabled, seconds: seconds) }
             )
         case .countdown:
             DurationWheelSheet(
                 title: field.title,
+                subtitle: nil,
                 values: WorkoutCountdown.allCases.map(\.rawValue),
                 initial: viewModel.countdownOption.rawValue,
-                format: { "\($0)s" },
-                onDone: { viewModel.selectCountdown(WorkoutCountdown(rawValue: $0) ?? .ten) }
+                hasSwitch: false,
+                initiallyEnabled: true,
+                onDone: { _, seconds in viewModel.selectCountdown(WorkoutCountdown(rawValue: seconds) ?? .ten) }
             )
         }
     }
@@ -305,57 +312,129 @@ struct WorkoutSettingsView: View {
     }
 }
 
-/// Three-row wheel with a Done button. Holds the pending choice locally so scrolling does not write
-/// to the shared settings (and dismiss the sheet) until the user confirms.
+/// Bottom sheet with a title, an optional on/off switch, a three-row wheel and a Done button.
+/// Holds the pending choice locally so scrolling does not write to the shared settings (and
+/// dismiss the sheet) until the user confirms.
+///
+/// Sized to the design: 32pt top/bottom padding, 32pt between blocks, 52pt wheel rows inset 16pt
+/// (Figma frames 09-11 -- Rest timer On 394 with a full three-row wheel, Off 190, Countdown 374).
 private struct DurationWheelSheet: View {
     let title: String
+    let subtitle: String?
     let values: [Int]
-    let initial: Int
-    let format: (Int) -> String
-    let onDone: (Int) -> Void
+    let hasSwitch: Bool
+    let onDone: (_ isEnabled: Bool, _ value: Int) -> Void
 
     @State private var selection: Int
+    @State private var isEnabled: Bool
 
-    init(title: String, values: [Int], initial: Int, format: @escaping (Int) -> String, onDone: @escaping (Int) -> Void) {
+    private static let rowHeight: CGFloat = 52
+    private static let blockSpacing: CGFloat = 32
+    private static let verticalPadding: CGFloat = 32
+    private static let buttonHeight: CGFloat = 46
+    private static let wheelTopInset: CGFloat = 16
+
+    init(title: String, subtitle: String?, values: [Int], initial: Int, hasSwitch: Bool, initiallyEnabled: Bool,
+         onDone: @escaping (_ isEnabled: Bool, _ value: Int) -> Void) {
         self.title = title
+        self.subtitle = subtitle
         self.values = values
-        self.initial = initial
-        self.format = format
+        self.hasSwitch = hasSwitch
         self.onDone = onDone
         _selection = State(initialValue: initial)
+        _isEnabled = State(initialValue: initiallyEnabled)
+    }
+
+    /// Whether the wheel is shown -- switching the rest timer off collapses the sheet to its
+    /// header and Done button, as in the "Rest Timer Off" frame.
+    private var showsWheel: Bool { !hasSwitch || isEnabled }
+
+    /// Content height from the design's metrics; used as the sheet's detent so it hugs its content
+    /// instead of the system's half-screen `.medium`.
+    private var sheetHeight: CGFloat {
+        let header: CGFloat = subtitle == nil ? 28 : 48
+        let wheel: CGFloat = showsWheel ? Self.blockSpacing + Self.wheelTopInset + Self.rowHeight * 3 : 0
+        return Self.verticalPadding + header + wheel + Self.blockSpacing + Self.buttonHeight + Self.verticalPadding
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            Text(title.localizedKey)
-                .font(Typography.subtitleLarge)
-                .foregroundStyle(Asset.Color.textPrimary.color)
+        VStack(alignment: .leading, spacing: Self.blockSpacing) {
+            header
 
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Asset.Color.rowSelected.color)
-                    .frame(height: NumberWheel.rowHeight)
+            if showsWheel {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Asset.Color.rowSelected.color)
+                        .frame(height: Self.rowHeight)
 
-                NumberWheel(values: values, selection: $selection, format: format, visibleRows: 3)
+                    NumberWheel(values: values,
+                                selection: $selection,
+                                format: { "\($0)s" },
+                                visibleRows: 3,
+                                rowHeight: Self.rowHeight,
+                                boldIdleRows: true)
+                }
+                .frame(height: Self.rowHeight * 3)
+                .padding(.horizontal, Layout.Spacing.m)
+                .padding(.top, Self.wheelTopInset)
             }
-            .frame(height: NumberWheel.rowHeight * 3)
 
-            Button { onDone(selection) } label: {
+            Button { onDone(isEnabled, selection) } label: {
                 Text("Done")
                     .font(Typography.bodyLarge)
                     .foregroundStyle(Asset.Color.white.color)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 46)
+                    .frame(height: Self.buttonHeight)
                     .background(Asset.Color.mainColor.color)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
-
-            Spacer(minLength: 0)
+            .padding(.horizontal, Layout.Spacing.m)
         }
         .padding(.horizontal, Layout.Spacing.m)
-        .padding(.vertical, 32)
+        .padding(.vertical, Self.verticalPadding)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Asset.Color.white.color.ignoresSafeArea())
+        // The design's 32pt bottom padding already includes the home-indicator area.
+        .ignoresSafeArea(.container, edges: .bottom)
+        .animation(.easeInOut(duration: 0.2), value: showsWheel)
+        .presentationDetents([.height(sheetHeight)])
+        .sheetCornerRadius(24)
+    }
+
+    private var header: some View {
+        HStack(alignment: .center, spacing: Layout.Spacing.s) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(title.localizedKey)
+                    .font(Typography.subtitleLarge)
+                    .foregroundStyle(Asset.Color.textPrimary.color)
+
+                if let subtitle {
+                    Text(subtitle.localizedKey)
+                        .font(Typography.bodySmall)
+                        .foregroundStyle(Asset.Color.textSecondary.color)
+                }
+            }
+
+            Spacer(minLength: Layout.Spacing.s)
+
+            if hasSwitch {
+                Toggle("", isOn: $isEnabled)
+                    .labelsHidden()
+                    .tint(Asset.Color.mainColor.color)
+            }
+        }
+    }
+}
+
+private extension View {
+    /// `presentationCornerRadius` needs iOS 16.4; older systems keep the default radius.
+    @ViewBuilder
+    func sheetCornerRadius(_ radius: CGFloat) -> some View {
+        if #available(iOS 16.4, *) {
+            presentationCornerRadius(radius)
+        } else {
+            self
+        }
     }
 }
 

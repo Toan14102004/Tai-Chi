@@ -104,10 +104,10 @@ extension WorkoutSettingsView {
             WorkoutCountdown(rawValue: settings.preWorkoutCountdownSeconds) ?? .ten
         }
 
-        func selectRestTimer(_ option: RestTimerDuration) {
-            settings.restTimerEnabled = option != .off
-            if option != .off {
-                settings.restTimerSeconds = option.rawValue
+        func selectRestTimer(isEnabled: Bool, seconds: Int) {
+            settings.restTimerEnabled = isEnabled
+            if isEnabled {
+                settings.restTimerSeconds = seconds
             }
             editingDuration = nil
         }
