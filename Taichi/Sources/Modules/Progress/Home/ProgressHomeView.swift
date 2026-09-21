@@ -13,7 +13,7 @@ struct ProgressHomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Layout.Spacing.m) {
-                if viewModel.isLoading, !viewModel.hasLoaded {
+                if !viewModel.hasLoaded, viewModel.errorMessage == nil {
                     ProgressHomeSkeletonView()
                 } else if let errorMessage = viewModel.errorMessage, !viewModel.hasLoaded {
                     WorkoutErrorView(message: errorMessage, retry: viewModel.load)

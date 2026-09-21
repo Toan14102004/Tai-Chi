@@ -13,7 +13,7 @@ struct DiscoverHomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                if viewModel.isLoading, !viewModel.hasLoaded {
+                if !viewModel.hasFinishedLoad, viewModel.errorMessage == nil {
                     // No outer padding here: DiscoverHomeSkeletonView already pads each section
                     // itself, same as the real content below it -- adding it again here would
                     // double it up (32pt instead of 16pt) and misalign the skeleton.

@@ -13,7 +13,7 @@ struct PracticeHomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Layout.Spacing.m) {
-                if viewModel.isLoading, !viewModel.hasLoaded {
+                if !viewModel.hasLoaded, viewModel.errorMessage == nil {
                     // No outer padding here: PlanHomeSkeletonView already pads each section
                     // itself, same as the real content below it -- adding it again here would
                     // double it up (32pt instead of 16pt) and misalign the skeleton.

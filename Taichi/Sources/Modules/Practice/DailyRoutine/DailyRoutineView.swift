@@ -25,7 +25,7 @@ struct DailyRoutineView: View {
                     PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
                         .padding(.horizontal, Layout.Spacing.m)
 
-                    if viewModel.isLoading, !viewModel.hasLoaded {
+                    if !viewModel.hasLoaded, viewModel.errorMessage == nil {
                         DailyRoutineSkeletonView()
                             .padding(.horizontal, Layout.Spacing.m)
                     } else if let errorMessage = viewModel.errorMessage, !viewModel.hasLoaded {

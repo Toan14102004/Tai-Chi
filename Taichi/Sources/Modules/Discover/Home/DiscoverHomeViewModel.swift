@@ -27,6 +27,7 @@ extension DiscoverHomeView {
         private var cancellables = Set<AnyCancellable>()
 
         var hasLoaded: Bool { !sections.isEmpty }
+        @Published private(set) var hasFinishedLoad = false
 
         func loadIfNeeded() {
             // The Recent card tracks progress written by the session player, so it is refreshed on
@@ -38,6 +39,7 @@ extension DiscoverHomeView {
 
         func load() {
             isLoading = true
+            hasFinishedLoad = false
             errorMessage = nil
 
             workoutService.discoverContent(sectionLimit: 6)
@@ -45,6 +47,7 @@ extension DiscoverHomeView {
                 .sink { [weak self] completion in
                     guard let self else { return }
                     isLoading = false
+                    hasFinishedLoad = true
                     if case let .failure(error) = completion {
                         errorMessage = error.errorDescription
                     }

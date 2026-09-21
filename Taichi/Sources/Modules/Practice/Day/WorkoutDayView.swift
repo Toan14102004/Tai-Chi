@@ -38,7 +38,7 @@ struct WorkoutDayView: View {
                     VStack(alignment: .leading, spacing: Layout.Spacing.m) {
                         PreloadedNativeAdsView(adKey: .practiceCompact, style: .contentCard, height: NativeAdViewStyle.contentCard.height)
 
-                        if viewModel.isLoading, viewModel.day == nil {
+                        if viewModel.day == nil, viewModel.errorMessage == nil {
                             WorkoutDetailSkeletonView()
                         } else if let errorMessage = viewModel.errorMessage, viewModel.day == nil {
                             WorkoutErrorView(message: errorMessage, retry: viewModel.load)

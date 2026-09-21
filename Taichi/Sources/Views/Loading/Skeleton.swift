@@ -10,28 +10,30 @@
 
 import SwiftUI
 
-/// A soft highlight band that sweeps left to right across its content, looping. Applied by
-/// `SkeletonBlock`/`SkeletonCircle` -- not meant to be used directly on real content.
 private struct Shimmer: ViewModifier {
-    @State private var moved = false
+    private static let period: TimeInterval = 1.4
 
     func body(content: Content) -> some View {
         content
             .overlay {
-                GeometryReader { geometry in
-                    LinearGradient(
-                        colors: [.clear, .white.opacity(0.35), .clear],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: geometry.size.width)
-                    .offset(x: moved ? geometry.size.width : -geometry.size.width)
+                TimelineView(.animation) { timeline in
+                    GeometryReader { geometry in
+                        let screenWidth = UIScreen.main.bounds.width
+                        let bandWidth = screenWidth * 0.6
+                        let elapsed = timeline.date.timeIntervalSinceReferenceDate
+                        let phase = elapsed.truncatingRemainder(dividingBy: Self.period) / Self.period
+                        let bandX = -bandWidth + (screenWidth + bandWidth) * phase
+
+                        LinearGradient(
+                            colors: [.clear, .white.opacity(0.35), .clear],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .frame(width: bandWidth)
+                        .offset(x: bandX - geometry.frame(in: .global).minX)
+                    }
                 }
-            }
-            .onAppear {
-                withAnimation(.linear(duration: 1.15).repeatForever(autoreverses: false)) {
-                    moved = true
-                }
+                .allowsHitTesting(false)
             }
     }
 }

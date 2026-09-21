@@ -35,7 +35,7 @@ struct WorkoutScheduleView: View {
                                            style: .contentCard,
                                            height: NativeAdViewStyle.contentCard.height)
 
-                    if viewModel.isLoading, viewModel.plan == nil {
+                    if viewModel.plan == nil, viewModel.errorMessage == nil {
                         WorkoutScheduleSkeletonView()
                     } else if let errorMessage = viewModel.errorMessage, viewModel.plan == nil {
                         WorkoutErrorView(message: errorMessage, retry: viewModel.load)
