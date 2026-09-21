@@ -444,6 +444,16 @@ struct ProgressHomeView: View {
                                     .frame(width: 9, height: max(6, value(day) / maxValue * 90))
                             }
                         }
+                        // Bars are scaled against the week's own max, so a busy week can fill
+                        // several tracks -- the bubble marks which column is the selected day and
+                        // what it adds up to. It floats above the track without taking layout space.
+                        .overlay(alignment: .top) {
+                            if Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate) {
+                                valueBubble("\(Int(value(day).rounded())) \(suffix)")
+                                    .fixedSize()
+                                    .offset(y: -23)
+                            }
+                        }
                         Text(Self.weekdayFormatter.string(from: day.date))
                             .font(Typography.captionSmall)
                             .foregroundStyle(Asset.Color.textSecondary.color)
@@ -452,9 +462,24 @@ struct ProgressHomeView: View {
                 }
             }
             .frame(height: 110, alignment: .bottom)
+            .padding(.top, 24) // room for the value bubble above the tracks
         }
         .padding(Layout.Spacing.m)
         .background(Asset.Color.white.color, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+
+    private func valueBubble(_ text: String) -> some View {
+        VStack(spacing: 0) {
+            Text(text)
+                .font(FontFamily.Inter.medium.font(size: 10))
+                .foregroundStyle(Asset.Color.white.color)
+                .padding(.horizontal, 6)
+                .frame(height: 16)
+                .background(Asset.Color.secondaryColor.color, in: RoundedRectangle(cornerRadius: 4, style: .continuous))
+            BubbleTail()
+                .fill(Asset.Color.secondaryColor.color)
+                .frame(width: 8, height: 4)
+        }
     }
 
     // MARK: - Formatters
@@ -494,4 +519,16 @@ struct ProgressHomeView: View {
         formatter.dateFormat = "hh:mm a"
         return formatter
     }()
+}
+
+/// The small downward pointer under the chart's value bubble.
+private struct BubbleTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        path.closeSubpath()
+        return path
+    }
 }
