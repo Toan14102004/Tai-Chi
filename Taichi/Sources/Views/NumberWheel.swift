@@ -46,6 +46,14 @@ struct NumberWheel: UIViewRepresentable {
     func updateUIView(_ picker: UIPickerView, context: Context) {
         context.coordinator.parent = self
 
+        // Only act on a `selection` that changed from outside the wheel. A parent that re-renders
+        // often (the in-session settings sheet observes the music player, which ticks 4x a second)
+        // calls this mid-drag, when `selection` still holds the old value because it is only written
+        // once the wheel settles -- forcing the picker back to it snapped every scroll back to the
+        // number the sheet opened on.
+        guard context.coordinator.lastSelection != selection else { return }
+        context.coordinator.lastSelection = selection
+
         guard let index = values.firstIndex(of: selection) else { return }
         if picker.selectedRow(inComponent: 0) != index {
             picker.selectRow(index, inComponent: 0, animated: true)
@@ -81,9 +89,13 @@ struct NumberWheel: UIViewRepresentable {
 
     final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
         var parent: NumberWheel
+        /// The last `selection` the wheel and its binding agreed on -- what `updateUIView` compares
+        /// against to tell an outside change from a redundant re-render.
+        var lastSelection: Int
 
         init(_ parent: NumberWheel) {
             self.parent = parent
+            self.lastSelection = parent.selection
         }
 
         func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
@@ -114,6 +126,7 @@ struct NumberWheel: UIViewRepresentable {
         }
 
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            lastSelection = parent.values[row]
             parent.selection = parent.values[row]
             pickerView.reloadComponent(component)
         }
