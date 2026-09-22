@@ -33,11 +33,15 @@ extension ProfileSetupView {
 
         // Ranges from `GET /v1/users/onboarding/options`; the server rejects anything outside them.
         private static let heightRangeCm = 80...250
-        /// The whole-inch heights that fall inside `heightRangeCm` (32-98 in, i.e. 2 ft 8 in - 8 ft
-        /// 2 in). Rounded inward so every accepted ft & in value converts to a cm value that is
-        /// itself in range -- rounding to nearest accepted 2 ft 7 in (79 cm) while rejecting it.
+        /// `heightRangeCm` as whole inches (31-98 in, i.e. 2 ft 7 in - 8 ft 2 in) -- what 80 cm and
+        /// 250 cm each become when the unit is switched. 2 ft 7 in is 78.7 cm, just under the cm
+        /// minimum, so `heightCm(feet:inches:)` clamps its result back into `heightRangeCm`.
         private static let heightRangeInches =
-            Int((Double(heightRangeCm.lowerBound) / 2.54).rounded(.up))...Int((Double(heightRangeCm.upperBound) / 2.54).rounded(.down))
+            Int((Double(heightRangeCm.lowerBound) / 2.54).rounded())...Int((Double(heightRangeCm.upperBound) / 2.54).rounded())
+        /// The cm value that was showing when the unit last switched to ft & in, with the ft/in it
+        /// became. Converting to whole inches loses precision (172 cm -> 5 ft 8 in -> 173 cm), so
+        /// switching straight back restores the original instead of the rounded-trip value.
+        private var cmBeforeInchesConversion: (cm: Int, feet: String, inches: String)?
 
         /// Digits each height field accepts. Enough for the range above (250 cm, 8 ft, 98 in) and
         /// small enough that no combination can overflow the arithmetic below.
@@ -129,7 +133,11 @@ extension ProfileSetupView {
             case .centimeters:
                 cm = heightText.isEmpty ? nil : Self.digits(heightText, cap: 999)
             case .feetInches:
-                cm = heightCm(feet: heightFeetText, inches: heightInchesText)
+                if let saved = cmBeforeInchesConversion, saved.feet == heightFeetText, saved.inches == heightInchesText {
+                    cm = saved.cm
+                } else {
+                    cm = heightCm(feet: heightFeetText, inches: heightInchesText)
+                }
             }
             // Only a height inside the valid range is carried over; an out-of-range one would
             // convert to something that does not fit the other unit's fields (e.g. 999 cm is 32 ft),
@@ -148,6 +156,7 @@ extension ProfileSetupView {
                 let totalInches = Int((Double(cm) / 2.54).rounded())
                 heightFeetText = "\(totalInches / 12)"
                 heightInchesText = "\(totalInches % 12)"
+                cmBeforeInchesConversion = (cm, heightFeetText, heightInchesText)
             }
             validateHeight()
         }
@@ -203,7 +212,14 @@ extension ProfileSetupView {
         }
 
         private func heightCm(feet: String, inches: String) -> Int? {
-            totalInches(feet: feet, inches: inches).map { Int((Double($0) * 2.54).rounded()) }
+            totalInches(feet: feet, inches: inches).map { totalInches in
+                let cm = Int((Double(totalInches) * 2.54).rounded())
+                // An in-range ft & in height always maps to an in-range cm height (2 ft 7 in is
+                // 79 cm but stands for the 80 cm minimum).
+                return Self.heightRangeInches.contains(totalInches)
+                    ? min(max(cm, Self.heightRangeCm.lowerBound), Self.heightRangeCm.upperBound)
+                    : cm
+            }
         }
 
         /// The `heightRangeCm` bounds converted to whole feet/inches, for display purposes only --

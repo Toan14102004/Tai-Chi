@@ -64,7 +64,7 @@ struct HeightStepView: View {
     }
 
     private func feetInchesField(text: Binding<String>, unit: String, isFocused: FocusState<Bool>.Binding?) -> some View {
-        HStack(spacing: Layout.Spacing.xs) {
+        HStack(alignment: .lastTextBaseline, spacing: Layout.Spacing.xs) {
             ZStack {
                 Text(text.wrappedValue.isEmpty ? "0" : text.wrappedValue)
                     .font(Typography.headlineLarge)
@@ -85,8 +85,9 @@ struct HeightStepView: View {
                     }
             }
 
+            // Smaller than the number so "ft"/"in" read as units, not as part of the value.
             Text(unit)
-                .font(Typography.headlineLarge)
+                .font(Typography.subtitleMedium)
                 .foregroundStyle(Asset.Color.textSecondary.color)
         }
     }
